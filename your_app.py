@@ -45,7 +45,7 @@ with st.container():
         with left_mini_column:
             st.image("favicon_noback_green.svg", width=70)
         with right_mini_column:
-            st.title("CleanPowerBot", anchor=False)
+            st.title(" CleanPowerBot", anchor=False)
         st.write("We want to help you consume electricity in a more eco-friendly manner!")
         st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
