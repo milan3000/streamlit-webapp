@@ -38,7 +38,7 @@ st.markdown(hide_img_fs, unsafe_allow_html=True) #Remove fullscreen buttons from
 
 # ---- HEADER ----
 with st.container():
-    left_column, middle_column, right_column = st.columns((5,1,3))
+    left_column, middle_column, right_column = st.columns((4,1,3))
     with left_column:
         st.subheader("Hello, welcome to the", anchor=False)
         left_mini_column, right_mini_column = st.columns([1,10])
