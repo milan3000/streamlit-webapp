@@ -41,7 +41,7 @@ with st.container():
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
         st.subheader("Hello, welcome to the", anchor=False)
-        left_mini_column, right_mini_column = st.columns([1,9])
+        left_mini_column, right_mini_column = st.columns([1.5,8.5])
         with left_mini_column:
             st.image("favicon_noback_green.svg", width=70)
         with right_mini_column:
