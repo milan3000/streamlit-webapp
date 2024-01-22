@@ -1,0 +1,183 @@
+import pandas as pd
+import requests
+import streamlit as st
+from streamlit_lottie import st_lottie
+from datetime import datetime
+import pytz
+from traffic_light import generate_traffic_light_html
+from plot_prediction import plot_prediction, plot_renewable_share
+
+st.set_page_config(page_title="CleanPowerBot", page_icon="favicon_noback_green.ico", layout="wide")
+
+def load_lottieurl(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}<style>", unsafe_allow_html=True)
+
+# ---- LOAD ASSETS ----
+local_css("style/style.css")
+lottie_coding = load_lottieurl("https://lottie.host/5aee9f59-db21-45f4-8520-7f90f0698b12/Z6EW1TwZI7.json")
+
+# ---- READ DATA ----
+forecast_df = pd.read_json("https://reforecast.pythonanywhere.com/api/data")
+forecast_df['re_share'] = 100*(forecast_df['wind'] + forecast_df['solar'] + forecast_df['hydropower'] + forecast_df['biomass']) / forecast_df['demand']
+
+# ---- GLOBAL SETTINGS ----
+hide_img_fs = ''' 
+<style>
+button[title="View fullscreen"]{
+    visibility: hidden;}
+</style>
+'''
+st.markdown(hide_img_fs, unsafe_allow_html=True) #Remove fullscreen buttons from images
+
+# ---- HEADER ----
+with st.container():
+    left_column, middle_column, right_column = st.columns((5,1,3))
+    with left_column:
+        st.subheader("Hello, welcome to the", anchor=False)
+        left_mini_column, right_mini_column = st.columns([1,10])
+        with left_mini_column:
+            st.image("favicon_noback_green.svg", width=70)
+        with right_mini_column:
+            st.title("CleanPowerBot", anchor=False)
+        st.write("We want to help you consume electricity in a more eco-friendly manner!")
+        st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
+        st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
+        st.write("[Learn More >](#what-we-do)")
+    with middle_column:
+        berlin_now = datetime.now(pytz.timezone('Europe/Berlin')).replace(minute=0, second=0, microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
+        re_share_now = forecast_df.loc[forecast_df['time'] == berlin_now, 're_share'].values[0]
+        if re_share_now > 0.66:
+            traffic_light_state = 2
+            traffic_light_color = "Green"
+        elif re_share_now > 0.33:
+            traffic_light_state = 1
+            traffic_light_color = "Yellow"
+        else:
+            traffic_light_state = 0
+            traffic_light_color = "Red"
+        st.markdown(generate_traffic_light_html(traffic_light_state), unsafe_allow_html=True)
+    with right_column:
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.subheader("Electricity Traffic Light", anchor=False)
+        st.write(f"""The traffic light shows, how eco-friendly the current electricity mix is. 
+                 With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""")
+        if(traffic_light_state==2):
+            st.write("""Now is a good time to consume electricity, use the dishwasher and washing machine or charge
+                     your electric vehicle. 
+                     """)
+        elif(traffic_light_state==1):
+            st.write("""Now is an OK time to consume electricity. 
+                     If you have planned to run big devices, maybe hold off on it, if you can!
+                     """)
+        else:
+            st.write("""Now is not the best time to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
+                     that pollute the atmosphere.
+                     """)
+        st.write("""To find out, how this might change in the upcoming days,
+                     check our [Forecasts](#forecasts) below!
+                     """)
+        
+# ---- PLOTS ----
+with st.container():
+    st.write("---")
+    st.subheader("Forecasts", anchor=False)
+    tab1, tab2 = st.tabs(["Electricity Mix", "Electricity Traffic Light"])
+
+    with tab1:
+        left_column, right_column = st.columns((7,3))
+        with left_column:
+            forecast_fig = plot_prediction(forecast_df, berlin_now)
+            st.plotly_chart(forecast_fig, use_container_width=True)
+        with right_column:
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write(
+                """
+                This graph shows the generation from each source of renewable energy 
+                in the German electricity mix for each hour of the upcoming week. The power 
+                from biomass, hydropower, wind, and solar is shown stacked on top of one 
+                another, while the red line represents the overall demand. Any difference 
+                between the renewable energy and demand (called residual load) needs to 
+                be compensated for by fossil fuels or electricity imports.
+                """)
+    with tab2:
+        left_column, right_column = st.columns((7,3))
+        with left_column:
+            traffic_light_fig = plot_renewable_share(forecast_df, berlin_now)
+            st.plotly_chart(traffic_light_fig, use_container_width=True)
+        with right_column:
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write(
+                """
+                The electricity traffic light shows the share of renewable energy in the electricity mix in an intuitive format. 
+                Every hour of the upcoming week gets assigned a color ranging from green to red depending on the share of renewable energy to overall demand.
+                This makes determining times of optimal electricity usage super easy.
+                """)
+            
+
+# ---- INFO ----
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2)
+    with left_column:
+        with left_column:
+            st.header("What we do", anchor=False)
+            st.write("##")
+            st.write(
+                """
+                We at CleanPowerBot provide a free and publicly available forecast 
+                of the German electricity mix to determine optimal times of usage.
+                Our infographics and API are free for non-commercial purposes. 
+                Soon, we will also offer the [CleanPowerHome](https://www.smard.de/home), 
+                a simple and easy-to-install system that makes eco-friendly energy usage 
+                even more convenient. So stay tuned for future updates!
+                If you have any questions, please contact us through the [Contact Form](#get-in-touch) below.
+                If you appreciate our work, [buy us a coffee](https://www.buymeacoffee.com/milan_wanek) :coffee:! 
+                """
+            )
+    with right_column:
+        st_lottie(lottie_coding, height=300, key="coding")
+        
+
+# ---- CONTACT ----
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2)
+    with left_column:
+        st.header("Get In Touch!", anchor=False)
+        st.write("##")
+        # Docs on https://formsubmit.co
+        contact_form = """
+            <form action="https://formsubmit.co/milanw12@gmail.com" method="POST">
+                <input type="text" name="name" placeholder="Your name" required>
+                <input type="email" name="email" placeholder="Your email" required>
+                <textarea name="message" placeholder="Your message here..." required ></textarea>
+                <button type="submit">Send</button>
+            </form>
+        """
+        st.markdown(contact_form, unsafe_allow_html=True)
+    with right_column:
+        st.empty()
