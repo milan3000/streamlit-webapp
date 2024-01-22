@@ -41,11 +41,11 @@ with st.container():
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
         st.subheader("Hello, welcome to the", anchor=False)
-        left_mini_column, right_mini_column = st.columns([1,10])
+        left_mini_column, right_mini_column = st.columns([2,10])
         with left_mini_column:
             st.image("favicon_noback_green.svg", width=70)
         with right_mini_column:
-            st.title("   CleanPowerBot", anchor=False)
+            st.title("CleanPowerBot", anchor=False)
         st.write("We want to help you consume electricity in a more eco-friendly manner!")
         st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
