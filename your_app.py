@@ -145,7 +145,6 @@ with st.container():
     with left_column:
         with left_column:
             st.header("What we do", anchor=False)
-            st.write("##")
             st.write(
                 """
                 We at CleanPowerBot provide a free and publicly available forecast 
@@ -168,7 +167,6 @@ with st.container():
     left_column, right_column = st.columns(2)
     with left_column:
         st.header("Get In Touch!", anchor=False)
-        st.write("##")
         # Docs on https://formsubmit.co
         contact_form = """
             <form action="https://formsubmit.co/milanw12@gmail.com" method="POST">
