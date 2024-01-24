@@ -69,7 +69,7 @@ with st.container():
         st.write("")
         st.write("")
         st.subheader("Electricity Traffic Light", anchor=False)
-        st.write(f"""The traffic light shows, how eco-friendly the current electricity mix is. 
+        st.write(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
                  With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""")
         if(traffic_light_state==2):
             st.write("""Now is a good time to consume electricity, use the dishwasher and washing machine or charge
