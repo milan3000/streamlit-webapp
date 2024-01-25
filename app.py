@@ -5,7 +5,7 @@ from streamlit_lottie import st_lottie
 from datetime import datetime
 import pytz
 from traffic_light import generate_traffic_light_html
-from plot_prediction import plot_prediction, plot_renewable_share
+from plots import plot_prediction, plot_renewable_share
 
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide")
 
