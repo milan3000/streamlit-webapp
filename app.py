@@ -97,7 +97,7 @@ with st.container():
         left_column, right_column = st.columns((7,3))
         with left_column:
             forecast_fig = plot_prediction(forecast_df, berlin_now)
-            st.plotly_chart(forecast_fig, use_container_width=True)
+            st.plotly_chart(forecast_fig, use_container_width=True, config = {'displayModeBar': False})
         with right_column:
             st.write("")
             st.write("")
@@ -120,7 +120,7 @@ with st.container():
         left_column, right_column = st.columns((7,3))
         with left_column:
             traffic_light_fig = plot_renewable_share(forecast_df, berlin_now)
-            st.plotly_chart(traffic_light_fig, use_container_width=True)
+            st.plotly_chart(traffic_light_fig, use_container_width=True, config = {'displayModeBar': False})
         with right_column:
             st.write("")
             st.write("")

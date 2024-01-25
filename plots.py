@@ -94,7 +94,7 @@ def plot_prediction(prediction_df, berlin_now):
             name="Current Time"
         )
     )
-    fig1.add_annotation(valign='top', text="Current Time", x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    fig1.add_annotation(valign='top', text="Now", x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
 
     fig1.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
     fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
@@ -103,8 +103,7 @@ def plot_prediction(prediction_df, berlin_now):
                     yaxis_title="Power [MW]", 
                     title="Electricity Mix Forecast",
                     legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
-                    hovermode='x unified',
-                    modebar={'visible': False}    
+                    hovermode='x unified'
     )
     return fig1
 
@@ -133,7 +132,7 @@ def plot_renewable_share(prediction_df, berlin_now):
             name="Current Time"
         )
     )
-    fig2.add_annotation(valign='top', text="Current Time", x=berlin_now, y=120, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    fig2.add_annotation(valign='top', text="Now", x=berlin_now, y=120, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
 
     fig2.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
     fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
@@ -142,8 +141,7 @@ def plot_renewable_share(prediction_df, berlin_now):
                        yaxis_title="Renewable Share [%]",
                        title="Electricity Traffic Light Forecast",
                        legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
-                       hovermode='x unified',
-                       modebar={'visible': False}
+                       hovermode='x unified'
     )
     
     return fig2
