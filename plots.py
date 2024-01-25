@@ -108,7 +108,7 @@ def plot_prediction(prediction_df, berlin_now):
     return fig1
 
 def plot_renewable_share(prediction_df, berlin_now):
-    colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.5, 'lightgreen'), (1, 'green')]
+    colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
 
     fig2 = go.Figure()
     fig2.add_trace(go.Bar(
