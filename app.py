@@ -7,7 +7,7 @@ import pytz
 from traffic_light import generate_traffic_light_html
 from plot_prediction import plot_prediction, plot_renewable_share
 
-st.set_page_config(page_title="Ecowhen", page_icon="favicon.ico", layout="wide")
+st.set_page_config(page_title="Ecowhen", page_icon="favicon (1).ico", layout="wide")
 
 def load_lottieurl(url):
     r = requests.get(url)
