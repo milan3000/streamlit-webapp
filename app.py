@@ -137,7 +137,6 @@ with st.container():
                 This makes determining times of optimal electricity usage super easy.
                 """)
             
-
 # ---- INFO ----
 with st.container():
     st.write("---")

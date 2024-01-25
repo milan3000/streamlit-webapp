@@ -21,6 +21,7 @@ def plot_prediction(prediction_df, berlin_now):
     color_emissions_factor = (255, 64, 255, 0.8)
     color_residual = (116.994, 127.985, 116.994, 0.8)
 
+  
     # create the figure object
     fig1 = go.Figure()
     # add traces to the figure
@@ -102,7 +103,8 @@ def plot_prediction(prediction_df, berlin_now):
                     yaxis_title="Power [MW]", 
                     title="Electricity Mix Forecast",
                     legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
-                    hovermode='x unified'          
+                    hovermode='x unified',
+                    modebar={'visible': False}    
     )
     return fig1
 
@@ -140,7 +142,8 @@ def plot_renewable_share(prediction_df, berlin_now):
                        yaxis_title="Renewable Share [%]",
                        title="Electricity Traffic Light Forecast",
                        legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
-                       hovermode='x unified'
+                       hovermode='x unified',
+                       modebar={'visible': False}
     )
     
     return fig2
