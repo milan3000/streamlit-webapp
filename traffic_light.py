@@ -15,17 +15,17 @@ def generate_traffic_light_html(state):
         <style>
             .container {{
                 position: relative;
-                width: 10vw;
-                height: 25vw;
-                border-radius: 2vw;
+                width: 8vw;
+                height: 20vw;
+                border-radius: 1.6vw;
                 overflow: hidden;
                 background-color: #595959;
             }}
 
             .circle {{
                 position: absolute;
-                width: 7vw;
-                height: 7vw;
+                width: 6vw;
+                height: 6vw;
                 border-radius: 50%;
             }}
 
