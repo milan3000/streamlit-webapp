@@ -53,10 +53,10 @@ with st.container():
     with middle_column:
         berlin_now = datetime.now(pytz.timezone('Europe/Berlin')).replace(minute=0, second=0, microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
         re_share_now = forecast_df.loc[forecast_df['time'] == berlin_now, 're_share'].values[0]
-        if (re_share_now >= 0.66):
+        if (re_share_now >= 66):
             traffic_light_state = 2
             traffic_light_color = "Green"
-        elif (re_share_now >= 0.33):
+        elif (re_share_now >= 33):
             traffic_light_state = 1
             traffic_light_color = "Yellow"
         else:
