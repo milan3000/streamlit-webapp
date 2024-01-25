@@ -19,7 +19,7 @@ def generate_traffic_light_html(state):
                 height: 320px;
                 border-radius: 20px;
                 overflow: hidden;
-                background-color: #6D6D6D;
+                background-color: #595959;
             }}
 
             .circle {{
