@@ -7,7 +7,7 @@ import pytz
 from traffic_light import generate_traffic_light_html
 from plot_prediction import plot_prediction, plot_renewable_share
 
-st.set_page_config(page_title="CleanPowerBot", page_icon="favicon_noback_green.ico", layout="wide")
+st.set_page_config(page_title="Ecowhen", page_icon="favicon.ico", layout="wide")
 
 def load_lottieurl(url):
     r = requests.get(url)
@@ -40,12 +40,12 @@ st.markdown(hide_img_fs, unsafe_allow_html=True) #Remove fullscreen buttons from
 with st.container():
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
-        st.subheader("Hello, welcome to the", anchor=False)
+        st.subheader("Hello, welcome to", anchor=False)
         left_mini_column, right_mini_column = st.columns([1.5,8.5])
         with left_mini_column:
-            st.image("favicon_noback_green.svg", width=70)
+            st.image("favicon.svg", width=70)
         with right_mini_column:
-            st.title("CleanPowerBot", anchor=False)
+            st.title("Ecowhen", anchor=False)
         st.write("We want to help you consume electricity in a more eco-friendly manner!")
         st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
@@ -147,14 +147,15 @@ with st.container():
             st.header("What we do", anchor=False)
             st.write(
                 """
-                We at CleanPowerBot provide a free and publicly available forecast 
+                We at Ecowhen provide a free and publicly available forecast 
                 of the German electricity mix to determine optimal times of usage.
                 Our infographics and API are free for non-commercial purposes. 
-                Soon, we will also offer the [CleanPowerHome](https://www.smard.de/home), 
+                Soon, we will also offer the [Ecowhen Home Assistant](https://www.smard.de/home), 
                 a simple and easy-to-install system that makes eco-friendly energy usage 
                 even more convenient. So stay tuned for future updates!
                 If you have any questions, please contact us through the [Contact Form](#get-in-touch) below.
-                If you appreciate our work, [buy us a coffee](https://www.buymeacoffee.com/milan_wanek) :coffee:! 
+                If you like our work, consider [buying us a coffee](https://www.buymeacoffee.com/milan_wanek) :coffee:,
+                we would really appreciate it! 
                 """
             )
     with right_column:
