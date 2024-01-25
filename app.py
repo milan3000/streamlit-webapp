@@ -56,7 +56,7 @@ with st.container():
         if (re_share_now >= 80):
             traffic_light_state = 2
             traffic_light_color = "Green"
-        elif (re_share_now >= 30):
+        elif (re_share_now >= 33):
             traffic_light_state = 1
             traffic_light_color = "Yellow"
         else:
