@@ -7,14 +7,14 @@ def generate_traffic_light_html(state, period, next_state):
     
     #determing direction of arrow to next state
     if state == 0:
-        arrow = "&searr;"
+        arrow = "&nearr;"
     elif state == 1:
         if next_state==0:
-            arrow= "&nearr;"
+            arrow= "&searr;"
         elif next_state==2:
-            arrow = "&searr;"
+            arrow = "&nearr;"
     elif state== 2:
-        arrow = "&nearr;"
+        arrow = "&searr;"
         
     # HTML code for the traffic light
     html_code = f"""

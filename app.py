@@ -37,6 +37,7 @@ def get_traffic_light_state(forecast_df):
         traffic_state_df[share_df>level] = traffic_light_state
             
     traffic_light_state = int(traffic_state_df.loc[berlin_now])
+    traffic_light_color = traffic_light_states[traffic_light_state][0]
     # compute period until traffic light switches
     future_states = traffic_state_df.loc[traffic_state_df.index > berlin_now]
     switch_times = future_states[(future_states).diff().fillna(0)!=0]
@@ -93,9 +94,13 @@ with st.container():
             st.write("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
                      your electric vehicle. 
                      """)
-        elif(traffic_light_state==1):
+        elif(traffic_light_state==1) and (next_state == 2):
             st.write("""Now is an **OK** time to consume electricity. 
-                     If you have planned to run big devices, maybe hold off on it, if you can!
+                     If you have planned to run big devices, maybe hold off on it unit more renewable is available, if you can!
+                     """)
+        elif(traffic_light_state==1) and (next_state == 0):
+            st.write("""Now is an **OK** time to consume electricity. 
+                     If you have planned to run big devices, maybe do it now before the traffic light swiches to red!
                      """)
         else:
             st.write("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
