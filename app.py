@@ -9,10 +9,10 @@ from plots import plot_prediction, plot_renewable_share
 
 # ---- Config ----
 traffic_light_states = {
-    80 : ('Green', 2),
+    0  : ('Red', 0),
     33 : ('Yellow', 1),
-    0  : ('Red', 0)}
-
+    80 : ('Green', 2),
+    }
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide")
 
 def load_lottieurl(url):
@@ -32,16 +32,19 @@ def get_traffic_light_state(forecast_df):
     berlin_now = pd.Timestamp.now().floor('h')
     re_share_now = share_df.loc[share_df.index == berlin_now].item()
     
+    traffic_state_df = share_df * 0
     for level, (traffic_light_color, traffic_light_state) in traffic_light_states.items():
-        if re_share_now > level:
-            break # return fitting level
+        traffic_state_df[share_df>level] = traffic_light_state
             
+    traffic_light_state = int(traffic_state_df.loc[berlin_now])
     # compute period until traffic light switches
-    future_shares = share_df.loc[share_df.index > berlin_now]
-    switch_times = future_shares.index[(future_shares>level).diff().fillna(False)]
+    future_states = traffic_state_df.loc[traffic_state_df.index > berlin_now]
+    switch_times = future_states[(future_states).diff().fillna(0)!=0]
     
-    period = int((switch_times[0]- pd.Timestamp(berlin_now)) / pd.Timedelta('1h'))
-    return re_share_now, traffic_light_state, traffic_light_color, period
+    #compute how low the current state will last and what would be the next state.
+    period = int((switch_times.index[0]- pd.Timestamp(berlin_now)) / pd.Timedelta('1h'))
+    next_state = switch_times[0]
+    return re_share_now, traffic_light_state, traffic_light_color, period, next_state
     
 # ---- LOAD ASSETS ----
 local_css("style/style.css")
@@ -64,20 +67,20 @@ st.markdown(hide_img_fs, unsafe_allow_html=True) #Remove fullscreen buttons from
 with st.container():
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
-        st.subheader("Hello, welcome to the beta version", anchor=False)
+        st.subheader("Hello, welcome", anchor=False)
         left_mini_column, right_mini_column = st.columns([1.5,8.5])
         with left_mini_column:
             st.image("favicon.svg", width=70)
         with right_mini_column:
-            st.title("Ecowhen", anchor=False)
+            st.title("Ecowhen (beta)", anchor=False)
         st.write("We want to help you consume electricity in a more eco-friendly manner!")
         st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
         st.write("[Learn More >](#what-we-do)")
     with middle_column:
         berlin_now = pd.Timestamp.now().floor('h')
-        re_share_now, traffic_light_state, traffic_light_color, period = get_traffic_light_state(forecast_df)
-        st.markdown(generate_traffic_light_html(traffic_light_state, period), unsafe_allow_html=True)
+        re_share_now, traffic_light_state, traffic_light_color, period, next_state = get_traffic_light_state(forecast_df)
+        st.markdown(generate_traffic_light_html(traffic_light_state, period, next_state), unsafe_allow_html=True)
     with right_column:
         st.write("")
         st.write("")
@@ -87,16 +90,16 @@ with st.container():
         st.write(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
                  With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""")
         if(traffic_light_state==2):
-            st.write("""Now is a good time to consume electricity, use the dishwasher and washing machine or charge
+            st.write("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
                      your electric vehicle. 
                      """)
         elif(traffic_light_state==1):
-            st.write("""Now is an OK time to consume electricity. 
+            st.write("""Now is an **OK** time to consume electricity. 
                      If you have planned to run big devices, maybe hold off on it, if you can!
                      """)
         else:
-            st.write("""Now is not the best time to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
-                     that pollute the atmosphere.
+            st.write("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
+                     that pollute the atmosphere. The traffic light will approximately switch in {period} hours when more renewables will be available.
                      """)
         st.write("""To find out, how this might change in the upcoming days,
                      check our [Forecasts](#forecasts) below!

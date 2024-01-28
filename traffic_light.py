@@ -1,10 +1,21 @@
-def generate_traffic_light_html(state, period):
+def generate_traffic_light_html(state, period, next_state):
     # Fixed colors for the three circles
     colors = ["red", "yellow", "green"]
     textcolors = ["darkred", "#8B8000", "darkgreen"]
     # Opacities based on the state
     opacities = [1.0 if i == state else 0.1 for i in range(3)]
-
+    
+    #determing direction of arrow to next state
+    if state == 0:
+        arrow = "&nearr;"
+    elif state == 1:
+        if next_state==0:
+            arrow= "&searr;"
+        elif next_state==2:
+            arrow = "&nearr;"
+    elif state== 2:
+        arrow = "&searr;"
+        
     # HTML code for the traffic light
     html_code = f"""
     <!DOCTYPE html>
@@ -61,9 +72,9 @@ def generate_traffic_light_html(state, period):
     </head>
     <body>
         <div class="container">
-            <div class="circle red"><b>{f"{period}" if state==0 else ""}h</b></div>
-            <div class="circle yellow"><b>{f"{period}" if state==1 else ""}h</b></div>
-            <div class="circle green"><b>{f"{period}" if state==2 else ""}h</b></div>
+            <div class="circle red"><b>{f"{period}" if state==0 else ""}h{arrow}</b></div>
+            <div class="circle yellow"><b>{f"{period}" if state==1 else ""}h{arrow}</b></div>
+            <div class="circle green"><b>{f"{period}" if state==2 else ""}h{arrow}</b></div>
         </div>
     </body>
     </html>
