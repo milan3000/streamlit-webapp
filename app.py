@@ -13,7 +13,7 @@ traffic_light_states = {
     1 : ('Yellow', 33),
     2 : ('Green', 80),
     }
-st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide")
+st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide", initial_sidebar_state="collapsed")
 
 def load_lottieurl(url):
     r = requests.get(url)
@@ -171,8 +171,9 @@ with st.container():
                 """
                 We at Ecowhen provide a free and publicly available forecast 
                 of the German electricity mix to determine optimal times of usage.
-                Our infographics and API are free for non-commercial purposes. 
-                Soon, we will also offer the [Ecowhen Home Assistant](https://www.smard.de/home), 
+                Our infographics and API are free for non-commercial purposes.
+                Find out more [About Us](about) and our [Terms of Use and License](terms).
+                Soon, we will also offer the [Ecowhen Home Assistant](about), 
                 a simple and easy-to-install system that makes eco-friendly energy usage 
                 even more convenient. So stay tuned for future updates!
                 If you have any questions, please contact us through the [Contact Form](#get-in-touch) below.
