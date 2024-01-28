@@ -7,6 +7,12 @@ import pytz
 from traffic_light import generate_traffic_light_html
 from plots import plot_prediction, plot_renewable_share
 
+# ---- Config ----
+traffic_light_states = {
+    80 : ('Green', 2),
+    33 : ('Yellow', 1),
+    0  : ('Red', 0)}
+
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide")
 
 def load_lottieurl(url):
@@ -19,6 +25,24 @@ def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}<style>", unsafe_allow_html=True)
 
+
+def get_traffic_light_state(forecast_df):
+    share_df = forecast_df.loc[:,['time','re_share']].set_index('time')['re_share']
+    share_df.index = pd.DatetimeIndex(share_df.index)
+    berlin_now = pd.Timestamp.now().floor('h')
+    re_share_now = share_df.loc[share_df.index == berlin_now].item()
+    
+    for level, (traffic_light_color, traffic_light_state) in traffic_light_states.items():
+        if re_share_now > level:
+            break # return fitting level
+            
+    # compute period until traffic light switches
+    future_shares = share_df.loc[share_df.index > berlin_now]
+    switch_times = future_shares.index[(future_shares>level).diff().fillna(False)]
+    
+    period = int((switch_times[0]- pd.Timestamp(berlin_now)) / pd.Timedelta('1h'))
+    return re_share_now, traffic_light_state, traffic_light_color, period
+    
 # ---- LOAD ASSETS ----
 local_css("style/style.css")
 lottie_coding = load_lottieurl("https://lottie.host/5aee9f59-db21-45f4-8520-7f90f0698b12/Z6EW1TwZI7.json")
@@ -40,7 +64,7 @@ st.markdown(hide_img_fs, unsafe_allow_html=True) #Remove fullscreen buttons from
 with st.container():
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
-        st.subheader("Hello, welcome to", anchor=False)
+        st.subheader("Hello, welcome to the beta version", anchor=False)
         left_mini_column, right_mini_column = st.columns([1.5,8.5])
         with left_mini_column:
             st.image("favicon.svg", width=70)
@@ -51,18 +75,9 @@ with st.container():
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
         st.write("[Learn More >](#what-we-do)")
     with middle_column:
-        berlin_now = datetime.now(pytz.timezone('Europe/Berlin')).replace(minute=0, second=0, microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
-        re_share_now = forecast_df.loc[forecast_df['time'] == berlin_now, 're_share'].values[0]
-        if (re_share_now >= 80):
-            traffic_light_state = 2
-            traffic_light_color = "Green"
-        elif (re_share_now >= 33):
-            traffic_light_state = 1
-            traffic_light_color = "Yellow"
-        else:
-            traffic_light_state = 0
-            traffic_light_color = "Red"
-        st.markdown(generate_traffic_light_html(traffic_light_state), unsafe_allow_html=True)
+        berlin_now = pd.Timestamp.now().floor('h')
+        re_share_now, traffic_light_state, traffic_light_color, period = get_traffic_light_state(forecast_df)
+        st.markdown(generate_traffic_light_html(traffic_light_state, period), unsafe_allow_html=True)
     with right_column:
         st.write("")
         st.write("")

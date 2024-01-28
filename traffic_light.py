@@ -1,7 +1,7 @@
-def generate_traffic_light_html(state):
+def generate_traffic_light_html(state, period):
     # Fixed colors for the three circles
     colors = ["red", "yellow", "green"]
-
+    textcolors = ["darkred", "#8B8000", "darkgreen"]
     # Opacities based on the state
     opacities = [1.0 if i == state else 0.1 for i in range(3)]
 
@@ -25,8 +25,11 @@ def generate_traffic_light_html(state):
             .circle {{
                 position: absolute;
                 width: 6vw;
+                line-height: 6vw;
                 height: 6vw;
                 border-radius: 50%;
+                font-size: 30px;
+                text-align: center;
             }}
 
             .red {{
@@ -43,6 +46,8 @@ def generate_traffic_light_html(state):
                 left: 50%;
                 transform: translate(-50%, -50%);
                 opacity: {opacities[1]};
+                color : {textcolors[1]}
+                
             }}
 
             .green {{
@@ -56,9 +61,9 @@ def generate_traffic_light_html(state):
     </head>
     <body>
         <div class="container">
-            <div class="circle red"></div>
-            <div class="circle yellow"></div>
-            <div class="circle green"></div>
+            <div class="circle red"><b>{f"{period}" if state==0 else ""}h</b></div>
+            <div class="circle yellow"><b>{f"{period}" if state==1 else ""}h</b></div>
+            <div class="circle green"><b>{f"{period}" if state==2 else ""}h</b></div>
         </div>
     </body>
     </html>
