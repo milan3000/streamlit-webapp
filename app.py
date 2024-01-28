@@ -7,6 +7,12 @@ import pytz
 from traffic_light import generate_traffic_light_html
 from plots import plot_prediction, plot_renewable_share
 
+# ---- Config ----
+traffic_light_states = {
+    0  : ('Red', 0),
+    1 : ('Yellow', 33),
+    2 : ('Green', 80),
+    }
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide")
 
 def load_lottieurl(url):
@@ -19,6 +25,28 @@ def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}<style>", unsafe_allow_html=True)
 
+
+def get_traffic_light_state(forecast_df):
+    share_df = forecast_df.loc[:,['time','re_share']].set_index('time')['re_share']
+    share_df.index = pd.DatetimeIndex(share_df.index)
+    berlin_now = pd.Timestamp.now().floor('h')
+    re_share_now = share_df.loc[share_df.index == berlin_now].item()
+    
+    traffic_state_df = share_df * 0
+    for traffic_light_state, (traffic_light_color, level) in traffic_light_states.items():
+        traffic_state_df[share_df>level] = traffic_light_state
+            
+    traffic_light_state = int(traffic_state_df.loc[berlin_now])
+    traffic_light_color = traffic_light_states[traffic_light_state][0]
+    # compute period until traffic light switches
+    future_states = traffic_state_df.loc[traffic_state_df.index > berlin_now]
+    switch_times = future_states[(future_states).diff().fillna(0)!=0]
+    
+    #compute how low the current state will last and what would be the next state.
+    period = int((switch_times.index[0]- pd.Timestamp(berlin_now)) / pd.Timedelta('1h'))
+    next_state = switch_times[0]
+    return re_share_now, traffic_light_state, traffic_light_color, period, next_state
+    
 # ---- LOAD ASSETS ----
 local_css("style/style.css")
 lottie_coding = load_lottieurl("https://lottie.host/5aee9f59-db21-45f4-8520-7f90f0698b12/Z6EW1TwZI7.json")
@@ -40,29 +68,20 @@ st.markdown(hide_img_fs, unsafe_allow_html=True) #Remove fullscreen buttons from
 with st.container():
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
-        st.subheader("Hello, welcome to", anchor=False)
+        st.subheader("Hello, welcome", anchor=False)
         left_mini_column, right_mini_column = st.columns([1.5,8.5])
         with left_mini_column:
             st.image("favicon.svg", width=70)
         with right_mini_column:
-            st.title("Ecowhen", anchor=False)
+            st.title("Ecowhen (beta)", anchor=False)
         st.write("We want to help you consume electricity in a more eco-friendly manner!")
         st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
         st.write("[Learn More >](#what-we-do)")
     with middle_column:
-        berlin_now = datetime.now(pytz.timezone('Europe/Berlin')).replace(minute=0, second=0, microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
-        re_share_now = forecast_df.loc[forecast_df['time'] == berlin_now, 're_share'].values[0]
-        if (re_share_now >= 80):
-            traffic_light_state = 2
-            traffic_light_color = "Green"
-        elif (re_share_now >= 33):
-            traffic_light_state = 1
-            traffic_light_color = "Yellow"
-        else:
-            traffic_light_state = 0
-            traffic_light_color = "Red"
-        st.markdown(generate_traffic_light_html(traffic_light_state), unsafe_allow_html=True)
+        berlin_now = pd.Timestamp.now().floor('h')
+        re_share_now, traffic_light_state, traffic_light_color, period, next_state = get_traffic_light_state(forecast_df)
+        st.markdown(generate_traffic_light_html(traffic_light_state, period, next_state), unsafe_allow_html=True)
     with right_column:
         st.write("")
         st.write("")
@@ -72,16 +91,20 @@ with st.container():
         st.write(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
                  With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""")
         if(traffic_light_state==2):
-            st.write("""Now is a good time to consume electricity, use the dishwasher and washing machine or charge
+            st.write("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
                      your electric vehicle. 
                      """)
-        elif(traffic_light_state==1):
-            st.write("""Now is an OK time to consume electricity. 
-                     If you have planned to run big devices, maybe hold off on it, if you can!
+        elif(traffic_light_state==1) and (next_state == 2):
+            st.write("""Now is an **OK** time to consume electricity. 
+                     If you have planned to run big devices, maybe hold off on it unit more renewable is available, if you can!
+                     """)
+        elif(traffic_light_state==1) and (next_state == 0):
+            st.write("""Now is an **OK** time to consume electricity. 
+                     If you have planned to run big devices, maybe do it now before the traffic light swiches to red!
                      """)
         else:
-            st.write("""Now is not the best time to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
-                     that pollute the atmosphere.
+            st.write("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
+                     that pollute the atmosphere. The traffic light will approximately switch in {period} hours when more renewables will be available.
                      """)
         st.write("""To find out, how this might change in the upcoming days,
                      check our [Forecasts](#forecasts) below!
