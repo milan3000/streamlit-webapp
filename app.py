@@ -10,8 +10,8 @@ from plots import plot_prediction, plot_renewable_share
 # ---- Config ----
 traffic_light_states = {
     0  : ('Red', 0),
-    33 : ('Yellow', 1),
-    80 : ('Green', 2),
+    1 : ('Yellow', 33),
+    2 : ('Green', 80),
     }
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide")
 
@@ -33,7 +33,7 @@ def get_traffic_light_state(forecast_df):
     re_share_now = share_df.loc[share_df.index == berlin_now].item()
     
     traffic_state_df = share_df * 0
-    for level, (traffic_light_color, traffic_light_state) in traffic_light_states.items():
+    for traffic_light_state, (traffic_light_color, level) in traffic_light_states.items():
         traffic_state_df[share_df>level] = traffic_light_state
             
     traffic_light_state = int(traffic_state_df.loc[berlin_now])
