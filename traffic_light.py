@@ -1,7 +1,7 @@
 def generate_traffic_light_html(state, period, next_state):
     # Fixed colors for the three circles
-    colors = ["red", "yellow", "green"]
-    textcolors = ["darkred", "#8B8000", "darkgreen"]
+    colors = ["green", "yellow", "red"]
+    textcolors = ["darkgreen", "#8B8000", "darkred"]
     # Opacities based on the state
     opacities = [1.0 if i == state else 0.1 for i in range(3)]
     
