@@ -7,14 +7,14 @@ def generate_traffic_light_html(state, period, next_state):
     
     #determing direction of arrow to next state
     if state == 0:
-        arrow = "&nearr;"
+        arrow = "&searr;"
     elif state == 1:
         if next_state==0:
-            arrow= "&searr;"
+            arrow= "&nearr;"
         elif next_state==2:
-            arrow = "&nearr;"
+            arrow = "&searr;"
     elif state== 2:
-        arrow = "&searr;"
+        arrow = "&nearr;"
         
     # HTML code for the traffic light
     html_code = f"""
@@ -72,9 +72,9 @@ def generate_traffic_light_html(state, period, next_state):
     </head>
     <body>
         <div class="container">
-            <div class="circle red"><b>{f"{period}" if state==0 else ""}h{arrow}</b></div>
-            <div class="circle yellow"><b>{f"{period}" if state==1 else ""}h{arrow}</b></div>
-            <div class="circle green"><b>{f"{period}" if state==2 else ""}h{arrow}</b></div>
+            <div class="circle red"><b>{f"{period}h{arrow}" if state==0 else ""}</b></div>
+            <div class="circle yellow"><b>{f"{period}h{arrow}" if state==1 else ""}</b></div>
+            <div class="circle green"><b>{f"{period}h{arrow}" if state==2 else ""}</b></div>
         </div>
     </body>
     </html>
