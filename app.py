@@ -91,8 +91,8 @@ with st.container():
         st.write(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
                  With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""")
         if(traffic_light_state==2):
-            st.write("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
-                     your electric vehicle. 
+            st.write(f"""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
+                     your electric vehicle with in the next {period} {f"hours" if period>1 else "hour"}.
                      """)
         elif(traffic_light_state==1) and (next_state == 2):
             st.write("""Now is an **OK** time to consume electricity. 
@@ -103,8 +103,8 @@ with st.container():
                      If you have planned to run big devices, maybe do it now before the traffic light swiches to red!
                      """)
         else:
-            st.write("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
-                     that pollute the atmosphere. The traffic light will approximately switch in {period} hours when more renewables will be available.
+            st.write(f"""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
+                     that pollute the atmosphere. The traffic light will approximately switch in {period} {f"hours" if period>1 else "hour"} when more renewables will be available.
                      """)
         st.write("""To find out, how this might change in the upcoming days,
                      check our [Forecasts](#forecasts) below!
