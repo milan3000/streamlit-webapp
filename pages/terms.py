@@ -6,7 +6,6 @@ def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}<style>", unsafe_allow_html=True)
 
-
 local_css("style/style.css")
 
 with st.container():
@@ -18,6 +17,12 @@ with st.container():
     The accuracy and completeness of the data and their uninterrupted 
     provision are not guaranteed by Ecowhen and are provided without warranty.
     Ecowhen expressly disclaims all liability under these Terms of Use.
+    """
+    )
+    st.write(
+        """
+    Our services are free for non-commercial use. If you plan to use our forecasts 
+    for commercial purposes, we kindly request that you [get in touch](../#get-in-touch) with us. 
     """
     )
     left_column,middle_column, right_column = st.columns((4,1,4))
@@ -39,7 +44,7 @@ with st.container():
                 that legally restrict others from doing anything the license permits.
                 """)
         st.write("The licensor cannot revoke these freedoms as long as you follow the license terms.")
-        st.write("[CC BY-NC 4.0 DEED](https://creativecommons.org/licenses/by-nc/4.0/)")
+        st.write("[CC BY 4.0 DEED](https://creativecommons.org/licenses/by/4.0/)")
     with middle_column:
         st.empty()
     with right_column:
