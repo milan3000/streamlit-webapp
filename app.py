@@ -64,16 +64,45 @@ button[title="View fullscreen"]{
 '''
 st.markdown(hide_img_fs, unsafe_allow_html=True) #Remove fullscreen buttons from images
 
+# ---- LANGUAGE OPTIONS ----
+languages = {"Deutsch": "de", "English": "en"}
+
+query_parameters = st.query_params.to_dict()
+if "lang" not in query_parameters:
+    st.query_params.lang="de"
+    st.experimental_rerun()
+
+
+def set_language() -> None:
+    if "selected_language" in st.session_state:
+        st.query_params.lang=languages.get(st.session_state["selected_language"]
+        )
+
+
 # ---- HEADER ----
 with st.container():
-    left_column, middle_column, right_column = st.columns((3,1,3))
+    left_column, middle_column, right_column = st.columns((4,4,2))
     with left_column:
-        st.subheader("Hello, welcome", anchor=False)
-        left_mini_column, right_mini_column = st.columns([1.5,8.5])
+        left_mini_column, right_mini_column = st.columns((1.5,8.5))
         with left_mini_column:
             st.image("favicon.svg", width=70)
         with right_mini_column:
             st.title("Ecowhen (beta)", anchor=False)
+    with middle_column:
+        st.empty()
+    with right_column:
+        sel_lang = st.radio(
+        "Sprache/ Language",
+        options=languages,
+        horizontal=True,
+        on_change=set_language,
+        key="selected_language",
+)
+
+# ---- TRAFFIC LIGHT ----
+with st.container():
+    left_column, middle_column, right_column = st.columns((3,1,3))
+    with left_column:
         st.write("We want to help you consume electricity in a more eco-friendly manner!")
         st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
