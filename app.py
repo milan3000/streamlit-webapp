@@ -107,43 +107,53 @@ with st.container():
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
         st.subheader(langwrite("Hello, welcome to Ecowhen (beta)", "Hallo, willkommen bei Ecowhen (beta)"), anchor=False)
-        st.write("We want to help you consume electricity in a more eco-friendly manner!")
-        st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
-        st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
-        st.write("[Learn More >](#what-we-do)")
+        st.write(langwrite("We want to help you consume electricity in a more eco-friendly manner!",
+            "Wir wollen dir helfen, deinen Stromverbrauch umweltfreundlicher zu gestalten!"))
+        st.write(langwrite("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.",
+            "Eine Anpassung des eigenen Verbrauchs an Zeiten mit hohem Anteil an Erneuerbarer Energie reduziert deinen **CO2-Fußabdruck**."))
+        st.write(langwrite("Check our forecast of the German electricity mix to make informed usage decisions.",
+                "Schau in unsere Prognosen für den deutschen Strommix, um die besten Zeiten zu finden."))
+        st.write(langwrite("[Learn More >](#what-we-do)", "[Erfahre Mehr >](#what-we-do)"))
     with middle_column:
         berlin_now = pd.Timestamp.now().floor('h')
         re_share_now, traffic_light_state, traffic_light_color, period, next_state = get_traffic_light_state(forecast_df)
         st.markdown(generate_traffic_light_html(traffic_light_state, period, next_state), unsafe_allow_html=True)
     with right_column:
-        st.subheader("Electricity Traffic Light", anchor=False)
-        st.write(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
-                 With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""")
+        st.subheader(langwrite("Electricity Traffic Light", "Stromampel"), anchor=False)
+        st.write(langwrite(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
+                 With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""",
+                 f"""Die Stromampel zeigt an, wie umweltfreundlich der aktuelle Strommix ist. 
+                 Mit einem Anteil von **{round(re_share_now)}%** Erneuerbarer Energie zeigt die Stromampel **{traffic_light_color}**."""))
         if(traffic_light_state==2):
-            st.write("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
-                     your electric vehicle. 
-                     """)
+            st.write(langwrite("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
+                     your electric vehicle.""",
+                     """Jetzt ist eine **gute** Zeit, um Strom zu verbrauchen, den Geschirrspüler und die Waschmaschine zu benutzen oder
+                     Ihr Elektrofahrzeug aufzuladen."""))
         elif(traffic_light_state==1) and (next_state == 2):
-            st.write("""Now is an **OK** time to consume electricity. 
-                     If you have planned to run big devices, maybe hold off on it unit more renewable is available, if you can!
-                     """)
+            st.write(langwrite("""Now is an **OK** time to consume electricity. 
+                     If you have planned to run big devices, maybe hold off on it until more renewable energy is available, if you can!""",
+                     """Jetzt ist eine **mittelmäßige** Zeit, um Strom zu verbrauchen. 
+                     Falls du geplant hast, große Geräte zu betreiben, überleg dir, ob du warten kannst, bis mehr erneuerbare Energie zur Verfügung steht."""))
         elif(traffic_light_state==1) and (next_state == 0):
-            st.write("""Now is an **OK** time to consume electricity. 
-                     If you have planned to run big devices, maybe do it now before the traffic light swiches to red!
-                     """)
+            st.write(langwrite("""Now is an **OK** time to consume electricity. 
+                     If you have planned to run big devices, maybe do it now before the traffic light swiches to red!""",
+                     """Jetzt ist eine **mittelmäßige** Zeit, um Strom zu verbrauchen.
+                     Falls du geplant hast, große Geräte zu betreiben, mach es am besten jetzt, bevor die Stromampel auf ROT schaltet"""))
         else:
-            st.write("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
-                     that pollute the atmosphere. The traffic light will approximately switch in {period} hours when more renewables will be available.
-                     """)
-        st.write("""To find out, how this might change in the upcoming days,
-                     check our [Forecasts](#forecasts) below!
-                     """)
+            st.write(langwrite("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
+                     that pollute the atmosphere. The traffic light will approximately switch in {period} hours when more renewables will be available.""",
+                     """Jetzt ist **nicht der beste Zeitpunkt**, um Strom zu verbrauchen. Der meiste Strom stammt aus nicht erneuerbaren Quellen wie Kohle und Gas, 
+                     welche die Atmosphäre verschmutzen. Die Ampel wird ungefähr in {period} Stunden umschalten, wenn mehr erneuerbare Energie verfügbar sein wird."""))
+        st.write(langwrite("""To find out, how the next hours and days will look like,
+                     check our [Forecasts](#forecasts) below!""",
+                     """Um herauszufinden, wie die nächsten Stunden und Tage aussehen werden,
+                     werfen Sie einen Blick auf unsere [Prognosen](#forecasts) weiter unten!"""))
         
 # ---- PLOTS ----
 with st.container():
     st.write("---")
-    st.subheader("Forecasts", anchor=False)
-    tab1, tab2 = st.tabs(["Electricity Mix", "Electricity Traffic Light"])
+    st.header(langwrite("Forecasts", "Prognosen"), anchor=False)
+    tab1, tab2 = st.tabs([langwrite("Electricity Mix", "Strommix"), langwrite("Electricity Traffic Light", "Stromampel")])
 
     with tab1:
         left_column, right_column = st.columns((7,3))
@@ -159,7 +169,7 @@ with st.container():
             st.write("")
             st.write("")
             st.write("")
-            st.write(
+            st.write(langwrite(
                 """
                 This graph shows the generation from each source of renewable energy 
                 in the German electricity mix for each hour of the upcoming week. The power 
@@ -167,7 +177,15 @@ with st.container():
                 another, while the red line represents the overall demand. Any difference 
                 between the renewable energy and demand (called residual load) needs to 
                 be compensated for by fossil fuels or electricity imports.
-                """)
+                """,
+                """
+                Diese Grafik zeigt die Erzeugung aus jeder erneuerbaren Energiequelle 
+                im deutschen Strommix für jede Stunde der kommenden Woche. Der Strom 
+                aus Biomasse, Wasserkraft, Wind- und Sonnenenergie ist übereinander gestapelt 
+                während die rote Linie die Netzlast darstellt. Jede Differenz 
+                zwischen der erneuerbaren Energie und der Netzlast (als Residuallast bezeichnet) muss 
+                durch fossile Brennstoffe oder Stromimporte ausgeglichen werden.
+                """))
     with tab2:
         left_column, right_column = st.columns((7,3))
         with left_column:
@@ -182,12 +200,18 @@ with st.container():
             st.write("")
             st.write("")
             st.write("")
-            st.write(
+            st.write(langwrite(
                 """
                 The electricity traffic light shows the share of renewable energy in the electricity mix in an intuitive format. 
                 Every hour of the upcoming week gets assigned a color ranging from green to red depending on the share of renewable energy to overall demand.
                 This makes determining times of optimal electricity usage super easy.
-                """)
+                """,
+                """
+                Die Stromampel zeigt den Anteil der erneuerbaren Energien am Strommix in einem intuitiven Format an. 
+                Jeder Stunde der kommenden Woche wird eine Farbe zugewiesen, die von grün bis rot reicht, 
+                je nach dem Anteil der erneuerbaren Energien an der Netzlast. So lassen sich kinderleicht die besten Zeiten
+                zum optimalen Stormverbrauch herausfinden.
+                """))
             
 # ---- INFO ----
 with st.container():
@@ -195,8 +219,8 @@ with st.container():
     left_column, right_column = st.columns(2)
     with left_column:
         with left_column:
-            st.header("What we do", anchor=False)
-            st.write(
+            st.header(langwrite("What we do", "Was wir machen"), anchor=False)
+            st.write(langwrite(
                 """
                 We at Ecowhen provide a free and publicly available forecast 
                 of the German electricity mix to determine optimal times of usage.
@@ -208,8 +232,20 @@ with st.container():
                 If you have any questions, please contact us through the [Contact Form](#get-in-touch) below.
                 If you like our work, consider [buying us a coffee](https://www.buymeacoffee.com/milan_wanek) :coffee:,
                 we would really appreciate it! 
+                """,
                 """
-            )
+                Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Prognose 
+                des deutschen Strommixes, um die optimalen Nutzungszeiten zu ermitteln.
+                Unsere Infografik und API sind für nicht-kommerzielle Zwecke kostenlos.
+                Erfahren Sie mehr [Über uns](about) und unsere [Nutzungs- und Lizenzbedingungen](terms).
+                Bald werden wir auch den [Ecowhen Home Assistant](about) anbieten, 
+                ein einfaches und leicht zu installierendes System, das die umweltfreundliche Energienutzung 
+                noch bequemer macht. Bleiben Sie also auf dem Laufenden für zukünftige Updates!
+                Wenn Sie Fragen haben, kontaktieren Sie uns bitte über das [Kontaktformular](#get-in-touch) unten.
+                Wenn Ihnen unsere Arbeit gefällt, können Sie uns gerne einen [Kaffee](https://www.buymeacoffee.com/milan_wanek) :coffee: spendieren,
+                wir würden uns sehr darüber freuen!
+                """
+            ))
     with right_column:
         st_lottie(lottie_coding, height=300, key="coding")
         
@@ -219,7 +255,7 @@ with st.container():
     st.write("---")
     left_column, right_column = st.columns(2)
     with left_column:
-        st.header("Get In Touch!", anchor=False)
+        st.header(langwrite("Get In Touch!", "Kontaktieren Sie uns!"), anchor=False)
         # Docs on https://formsubmit.co
         contact_form = """
             <form action="https://formsubmit.co/milanw12@gmail.com" method="POST">
