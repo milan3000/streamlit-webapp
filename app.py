@@ -258,14 +258,22 @@ with st.container():
     with left_column:
         st.header(langwrite("Get In Touch!", "Kontaktieren Sie uns!"), anchor=False)
         # Docs on https://formsubmit.co
-        contact_form = """
+        contact_form = langwrite("""
             <form action="https://formsubmit.co/milanw12@gmail.com" method="POST">
                 <input type="text" name="name" placeholder="Your name" required>
                 <input type="email" name="email" placeholder="Your email" required>
                 <textarea name="message" placeholder="Your message here..." required ></textarea>
                 <button type="submit">Send</button>
             </form>
+        """,
         """
+            <form action="https://formsubmit.co/milanw12@gmail.com" method="POST">
+                <input type="text" name="name" placeholder="Dein Name" required>
+                <input type="email" name="email" placeholder="Deine Email" required>
+                <textarea name="message" placeholder="Deine Nachricht hier..." required ></textarea>
+                <button type="submit">Senden</button>
+            </form>
+        """)
         st.markdown(contact_form, unsafe_allow_html=True)
     with right_column:
         st.empty()
