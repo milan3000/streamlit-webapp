@@ -13,6 +13,7 @@ local_css("style/style.css")
 insert_header()
 
 with st.container():
+    st.write("---")
     st.header("Terms of Use", anchor=False)
     st.write(
         """

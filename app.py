@@ -6,26 +6,23 @@ from datetime import datetime
 import pytz
 from traffic_light import generate_traffic_light_html
 from plots import plot_prediction, plot_renewable_share
-from global_page_elements import hide_image_fullscreen, insert_header, langwrite
+from global_page_elements import hide_image_fullscreen, insert_header, langwrite, local_css
 
-# ---- Config ----
+# ---- CONFIG ----
 traffic_light_states = {
     0  : ('Red', 0),
     1 : ('Yellow', 33),
     2 : ('Green', 80),
     }
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide", initial_sidebar_state="collapsed")
+hide_image_fullscreen()
+local_css("style/style.css")
 
 def load_lottieurl(url):
     r = requests.get(url)
     if r.status_code != 200:
         return None
     return r.json()
-
-def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}<style>", unsafe_allow_html=True)
-
 
 def get_traffic_light_state(forecast_df):
     share_df = forecast_df.loc[:,['time','re_share']].set_index('time')['re_share']
@@ -49,17 +46,11 @@ def get_traffic_light_state(forecast_df):
     return re_share_now, traffic_light_state, traffic_light_color, period, next_state
     
 # ---- LOAD ASSETS ----
-local_css("style/style.css")
 lottie_coding = load_lottieurl("https://lottie.host/5aee9f59-db21-45f4-8520-7f90f0698b12/Z6EW1TwZI7.json")
 
 # ---- READ DATA ----
 forecast_df = pd.read_json("https://reforecast.pythonanywhere.com/api/data")
 forecast_df['re_share'] = 100*(forecast_df['wind'] + forecast_df['solar'] + forecast_df['hydropower'] + forecast_df['biomass']) / forecast_df['demand']
-
-# ---- GLOBAL SETTINGS ----
-hide_image_fullscreen()
-
-# ---- LANGUAGE OPTIONS ----
 
 # ---- HEADER ----
 insert_header()
