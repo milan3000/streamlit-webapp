@@ -179,8 +179,8 @@ with st.container():
                 We at Ecowhen provide a free and publicly available forecast 
                 of the German electricity mix to determine optimal times of usage.
                 Our infographics and API are free for non-commercial purposes.
-                Find out more [About Us](about) and our [Terms of Use and License](terms).
-                Soon, we will also offer the [Ecowhen Home Assistant](about), 
+                Find out more [About Us](about?lang=en) and our [Terms of Use and License](terms?lang=en).
+                Soon, we will also offer the [Ecowhen Home Assistant](about?lang=en), 
                 a simple and easy-to-install system that makes eco-friendly energy usage 
                 even more convenient. So stay tuned for future updates!
                 If you have any questions, please contact us through the [Contact Form](#get-in-touch) below.
@@ -203,7 +203,6 @@ with st.container():
     with right_column:
         st_lottie(lottie_coding, height=300, key="coding")
         
-
 # ---- CONTACT ----
 with st.container():
     st.write("---")
