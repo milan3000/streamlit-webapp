@@ -78,6 +78,13 @@ def set_language() -> None:
         st.query_params.lang=languages.get(st.session_state["selected_language"]
         )
 
+def langwrite(english_text, german_text):
+    if st.query_params.lang == 'en':
+        return english_text
+    elif st.query_params.lang == 'de':
+        return german_text
+    return None
+
 # ---- HEADER ----
 with st.container():
     left_column, middle_column, right_column = st.columns((4,4,2))
@@ -99,7 +106,7 @@ with st.container():
     st.write("---")
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
-        st.subheader("Hello, welcome to Ecowhen (beta)", anchor=False)
+        st.subheader(langwrite("Hello, welcome to Ecowhen (beta)", "Hallo, willkommen bei Ecowhen (beta)"), anchor=False)
         st.write("We want to help you consume electricity in a more eco-friendly manner!")
         st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
