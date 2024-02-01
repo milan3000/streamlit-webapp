@@ -6,6 +6,7 @@ from datetime import datetime
 import pytz
 from traffic_light import generate_traffic_light_html
 from plots import plot_prediction, plot_renewable_share
+from global_page_elements import hide_image_fullscreen, insert_header, langwrite
 
 # ---- Config ----
 traffic_light_states = {
@@ -56,51 +57,12 @@ forecast_df = pd.read_json("https://reforecast.pythonanywhere.com/api/data")
 forecast_df['re_share'] = 100*(forecast_df['wind'] + forecast_df['solar'] + forecast_df['hydropower'] + forecast_df['biomass']) / forecast_df['demand']
 
 # ---- GLOBAL SETTINGS ----
-hide_img_fs = ''' 
-<style>
-button[title="View fullscreen"]{
-    visibility: hidden;}
-</style>
-'''
-st.markdown(hide_img_fs, unsafe_allow_html=True) #Remove fullscreen buttons from images
+hide_image_fullscreen()
 
 # ---- LANGUAGE OPTIONS ----
-languages = {"Deutsch": "de", "English": "en"}
-
-query_parameters = st.query_params.to_dict()
-if "lang" not in query_parameters:
-    st.query_params.lang="de"
-    st.experimental_rerun()
-
-
-def set_language() -> None:
-    if "selected_language" in st.session_state:
-        st.query_params.lang=languages.get(st.session_state["selected_language"]
-        )
-
-def langwrite(english_text, german_text):
-    if st.query_params.lang == 'en':
-        return english_text
-    elif st.query_params.lang == 'de':
-        return german_text
-    return None
 
 # ---- HEADER ----
-st.markdown(" <style> div[class^='block-container'] { padding-top: 0rem; } </style> ", unsafe_allow_html=True) #removes space at the top of the page
-with st.container():
-    left_column, middle_column, right_column = st.columns((4,4,2))
-    with left_column:
-        st.image("ecowhen_logo-name.svg", width=320)
-    with middle_column:
-        st.empty()
-    with right_column:
-        sel_lang = st.radio(
-        "Sprache/ Language",
-        options=languages,
-        horizontal=True,
-        on_change=set_language,
-        key="selected_language",
-)
+insert_header()
 
 # ---- TRAFFIC LIGHT ----
 with st.container():
