@@ -86,6 +86,7 @@ def langwrite(english_text, german_text):
     return None
 
 # ---- HEADER ----
+st.markdown(" <style> div[class^='block-container'] { padding-top: 0rem; } </style> ", unsafe_allow_html=True) #removes space at the top of the page
 with st.container():
     left_column, middle_column, right_column = st.columns((4,4,2))
     with left_column:

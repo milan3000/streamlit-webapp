@@ -10,6 +10,7 @@ def local_css(file_name):
 local_css("style/style.css")
 
 # ---- HEADER ----
+st.markdown(" <style> div[class^='block-container'] { padding-top: 0rem; } </style> ", unsafe_allow_html=True) #removes space at the top of the page
 with st.container():
     st.header("About Us", anchor=False)
     st.write(
