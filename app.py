@@ -78,16 +78,11 @@ def set_language() -> None:
         st.query_params.lang=languages.get(st.session_state["selected_language"]
         )
 
-
 # ---- HEADER ----
 with st.container():
     left_column, middle_column, right_column = st.columns((4,4,2))
     with left_column:
-        left_mini_column, right_mini_column = st.columns((1.5,8.5))
-        with left_mini_column:
-            st.image("favicon.svg", width=70)
-        with right_mini_column:
-            st.title("Ecowhen (beta)", anchor=False)
+        st.image("ecowhen_logo-name.svg", width=320)
     with middle_column:
         st.empty()
     with right_column:
@@ -101,8 +96,10 @@ with st.container():
 
 # ---- TRAFFIC LIGHT ----
 with st.container():
+    st.write("---")
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
+        st.subheader("Hello, welcome to Ecowhen (beta)", anchor=False)
         st.write("We want to help you consume electricity in a more eco-friendly manner!")
         st.write("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.")
         st.write("Check our forecast for the German electricity mix to make informed usage decisions.")
@@ -112,10 +109,6 @@ with st.container():
         re_share_now, traffic_light_state, traffic_light_color, period, next_state = get_traffic_light_state(forecast_df)
         st.markdown(generate_traffic_light_html(traffic_light_state, period, next_state), unsafe_allow_html=True)
     with right_column:
-        st.write("")
-        st.write("")
-        st.write("")
-        st.write("")
         st.subheader("Electricity Traffic Light", anchor=False)
         st.write(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
                  With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""")
