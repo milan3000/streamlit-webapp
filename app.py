@@ -132,12 +132,12 @@ with st.container():
         elif(traffic_light_state==1) and (next_state == 2):
             st.write(langwrite("""Now is an **OK** time to consume electricity. 
                      If you have planned to run big devices, maybe hold off on it until more renewable energy is available, if you can!""",
-                     """Jetzt ist eine **mittelmäßige** Zeit, um Strom zu verbrauchen. 
+                     """Jetzt ist eine **mittelgute** Zeit, um Strom zu verbrauchen. 
                      Falls du geplant hast, große Geräte zu betreiben, überleg dir, ob du warten kannst, bis mehr erneuerbare Energie zur Verfügung steht."""))
         elif(traffic_light_state==1) and (next_state == 0):
             st.write(langwrite("""Now is an **OK** time to consume electricity. 
                      If you have planned to run big devices, maybe do it now before the traffic light swiches to red!""",
-                     """Jetzt ist eine **mittelmäßige** Zeit, um Strom zu verbrauchen.
+                     """Jetzt ist eine **mittelgute** Zeit, um Strom zu verbrauchen.
                      Falls du geplant hast, große Geräte zu betreiben, mach es am besten jetzt, bevor die Stromampel auf ROT schaltet"""))
         else:
             st.write(langwrite("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
