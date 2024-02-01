@@ -67,7 +67,7 @@ with st.container():
             "Eine Anpassung des eigenen Verbrauchs an Zeiten mit hohem Anteil an Erneuerbarer Energie reduziert deinen **CO2-Fußabdruck**."))
         st.write(langwrite("Check our forecast of the German electricity mix to make informed usage decisions.",
                 "Schau in unsere Prognosen für den deutschen Strommix, um die besten Zeiten zu finden."))
-        st.write(langwrite("[Learn More >](#what-we-do)", "[Erfahre Mehr >](#what-we-do)"))
+        st.write(langwrite("[Learn More >](#what-we-do)", "[Erfahre Mehr >](#was-wir-machen)"))
     with middle_column:
         berlin_now = pd.Timestamp.now().floor('h')
         re_share_now, traffic_light_state, traffic_light_color, period, next_state = get_traffic_light_state(forecast_df)
@@ -101,7 +101,7 @@ with st.container():
         st.write(langwrite("""To find out, how the next hours and days will look like,
                      check our [Forecasts](#forecasts) below!""",
                      """Um herauszufinden, wie die nächsten Stunden und Tage aussehen werden,
-                     werfen Sie einen Blick auf unsere [Prognosen](#forecasts) weiter unten!"""))
+                     werfen Sie einen Blick auf unsere [Prognosen](#prognosen) weiter unten!"""))
         
 # ---- PLOTS ----
 with st.container():
@@ -195,7 +195,7 @@ with st.container():
                 Bald werden wir auch den [Ecowhen Home Assistant](about) anbieten, 
                 ein einfaches und leicht zu installierendes System, das die umweltfreundliche Energienutzung 
                 noch bequemer macht. Bleiben Sie also auf dem Laufenden für zukünftige Updates!
-                Wenn Sie Fragen haben, kontaktieren Sie uns bitte über das [Kontaktformular](#get-in-touch) unten.
+                Wenn Sie Fragen haben, kontaktieren Sie uns bitte über das [Kontaktformular](#kontaktieren-sie-uns) unten.
                 Wenn Ihnen unsere Arbeit gefällt, können Sie uns gerne einen [Kaffee](https://www.buymeacoffee.com/milan_wanek) :coffee: spendieren,
                 wir würden uns sehr darüber freuen!
                 """
