@@ -10,9 +10,9 @@ from global_page_elements import hide_image_fullscreen, insert_header, langwrite
 
 # ---- CONFIG ----
 traffic_light_states = {
-    0  : ('Red', 0),
-    1 : ('Yellow', 33),
-    2 : ('Green', 80),
+    0  : (['Red','Rot'], 0),
+    1 : (['Yellow','Gelb'], 33),
+    2 : (['Green','Grün'], 80),
     }
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide", initial_sidebar_state="collapsed")
 hide_image_fullscreen()
@@ -67,7 +67,7 @@ with st.container():
         st.write(langwrite("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.",
             "Eine Anpassung des eigenen Verbrauchs an Zeiten mit hohem Anteil an Erneuerbarer Energie reduziert deinen **CO2-Fußabdruck**."))
         st.write(langwrite("Check our forecast of the German electricity mix to make informed usage decisions.",
-                "Schau in unsere Prognosen für den deutschen Strommix, um die besten Zeiten zu finden."))
+                "Schau in unsere Vorhersagen für den deutschen Strommix, um die besten Zeiten zu finden."))
         st.write(langwrite("[Learn More >](#what-we-do)", "[Erfahre Mehr >](#was-wir-machen)"))
     with middle_column:
         berlin_now = pd.Timestamp.now().floor('h')
@@ -76,9 +76,9 @@ with st.container():
     with right_column:
         st.subheader(langwrite("Electricity Traffic Light", "Stromampel"), anchor=False)
         st.write(langwrite(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
-                 With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""",
+                 With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color[0]}**.""",
                  f"""Die Stromampel zeigt an, wie umweltfreundlich der aktuelle Strommix ist. 
-                 Mit einem Anteil von **{round(re_share_now)}%** Erneuerbarer Energie zeigt die Stromampel **{traffic_light_color}**."""))
+                 Mit einem Anteil von **{round(re_share_now)}%** Erneuerbarer Energie zeigt die Stromampel **{traffic_light_color[1]}**."""))
         if(traffic_light_state==2):
             st.write(langwrite("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
                      your electric vehicle.""",
@@ -102,15 +102,41 @@ with st.container():
         st.write(langwrite("""To find out, how the next hours and days will look like,
                      check our [Forecasts](#forecasts) below!""",
                      """Um herauszufinden, wie die nächsten Stunden und Tage aussehen werden,
-                     werfen Sie einen Blick auf unsere [Prognosen](#prognosen) weiter unten!"""))
+                     wirf einen Blick auf unsere [Vorhersagen](#vorhersagen) weiter unten!"""))
         
 # ---- PLOTS ----
 with st.container():
     st.write("---")
-    st.header(langwrite("Forecasts", "Prognosen"), anchor=False)
+    st.header(langwrite("Forecasts", "Vorhersagen"), anchor=False)
     tab1, tab2 = st.tabs([langwrite("Electricity Mix", "Strommix"), langwrite("Electricity Traffic Light", "Stromampel")])
 
     with tab1:
+        left_column, right_column = st.columns((7,3))
+        with left_column:
+            traffic_light_fig = plot_renewable_share(forecast_df, berlin_now)
+            st.plotly_chart(traffic_light_fig, use_container_width=True, config = {'displayModeBar': False})
+        with right_column:
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write(langwrite(
+                """
+                The electricity traffic light shows the share of renewable energy in the electricity mix in an intuitive format. 
+                Every hour of the upcoming week gets assigned a color ranging from green to red depending on the share of renewable energy to overall demand.
+                This makes determining times of optimal electricity usage super easy.
+                """,
+                """
+                Die Stromampel zeigt den Anteil der erneuerbaren Energien am Strommix in einem intuitiven Format an. 
+                Jeder Stunde der kommenden Woche wird eine Farbe zugewiesen, die von grün bis rot reicht, 
+                je nach dem Anteil der erneuerbaren Energien am gesamtdeutschen Stromverbrauch. So lassen sich kinderleicht die besten Zeiten
+                zum optimalen Stormverbrauch herausfinden.
+                """))
+    with tab2:
         left_column, right_column = st.columns((7,3))
         with left_column:
             forecast_fig = plot_prediction(forecast_df, berlin_now)
@@ -137,35 +163,9 @@ with st.container():
                 Diese Grafik zeigt die Erzeugung aus jeder erneuerbaren Energiequelle 
                 im deutschen Strommix für jede Stunde der kommenden Woche. Der Strom 
                 aus Biomasse, Wasserkraft, Wind- und Sonnenenergie ist übereinander gestapelt 
-                während die rote Linie die Netzlast darstellt. Jede Differenz 
-                zwischen der erneuerbaren Energie und der Netzlast (als Residuallast bezeichnet) muss 
+                während die rote Linie den Stromverbrauch darstellt. Jede Differenz 
+                zwischen der erneuerbaren Energie und dem Verbrauch (als Residuallast bezeichnet) muss 
                 durch fossile Brennstoffe oder Stromimporte ausgeglichen werden.
-                """))
-    with tab2:
-        left_column, right_column = st.columns((7,3))
-        with left_column:
-            traffic_light_fig = plot_renewable_share(forecast_df, berlin_now)
-            st.plotly_chart(traffic_light_fig, use_container_width=True, config = {'displayModeBar': False})
-        with right_column:
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write(langwrite(
-                """
-                The electricity traffic light shows the share of renewable energy in the electricity mix in an intuitive format. 
-                Every hour of the upcoming week gets assigned a color ranging from green to red depending on the share of renewable energy to overall demand.
-                This makes determining times of optimal electricity usage super easy.
-                """,
-                """
-                Die Stromampel zeigt den Anteil der erneuerbaren Energien am Strommix in einem intuitiven Format an. 
-                Jeder Stunde der kommenden Woche wird eine Farbe zugewiesen, die von grün bis rot reicht, 
-                je nach dem Anteil der erneuerbaren Energien an der Netzlast. So lassen sich kinderleicht die besten Zeiten
-                zum optimalen Stormverbrauch herausfinden.
                 """))
             
 # ---- INFO ----
@@ -189,7 +189,7 @@ with st.container():
                 we would really appreciate it! 
                 """,
                 """
-                Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Prognose 
+                Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Vorhersage 
                 des deutschen Strommixes, um die optimalen Nutzungszeiten zu ermitteln.
                 Unsere Infografik und API sind für nicht-kommerzielle Zwecke kostenlos.
                 Erfahren Sie mehr [Über uns](about) und unsere [Nutzungs- und Lizenzbedingungen](terms).
