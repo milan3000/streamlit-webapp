@@ -9,6 +9,7 @@ local_css("style/style.css")
 # ---- HEADER ----
 insert_header()
 
+# ---- ABOUT US ----
 with st.container():
     st.write("---")
     st.header("About Us", anchor=False)

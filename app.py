@@ -10,9 +10,9 @@ from global_page_elements import hide_image_fullscreen, insert_header, langwrite
 
 # ---- CONFIG ----
 traffic_light_states = {
-    0  : ('Red', 0),
-    1 : ('Yellow', 33),
-    2 : ('Green', 80),
+    0  : (['Red','Rot'], 0),
+    1 : (['Yellow','Gelb'], 33),
+    2 : (['Green','Grün'], 80),
     }
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide", initial_sidebar_state="collapsed")
 hide_image_fullscreen()
@@ -75,9 +75,9 @@ with st.container():
     with right_column:
         st.subheader(langwrite("Electricity Traffic Light", "Stromampel"), anchor=False)
         st.write(langwrite(f"""The traffic light shows, how eco-friendly the electricity mix is right now. 
-                 With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color}**.""",
+                 With a renewable energy share of **{round(re_share_now)}%** the traffic light shows **{traffic_light_color[0]}**.""",
                  f"""Die Stromampel zeigt an, wie umweltfreundlich der aktuelle Strommix ist. 
-                 Mit einem Anteil von **{round(re_share_now)}%** Erneuerbarer Energie zeigt die Stromampel **{traffic_light_color}**."""))
+                 Mit einem Anteil von **{round(re_share_now)}%** Erneuerbarer Energie zeigt die Stromampel **{traffic_light_color[1]}**."""))
         if(traffic_light_state==2):
             st.write(langwrite("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
                      your electric vehicle.""",
@@ -101,7 +101,7 @@ with st.container():
         st.write(langwrite("""To find out, how the next hours and days will look like,
                      check our [Forecasts](#forecasts) below!""",
                      """Um herauszufinden, wie die nächsten Stunden und Tage aussehen werden,
-                     werfen Sie einen Blick auf unsere [Prognosen](#prognosen) weiter unten!"""))
+                     wirf einen Blick auf unsere [Prognosen](#prognosen) weiter unten!"""))
         
 # ---- PLOTS ----
 with st.container():
