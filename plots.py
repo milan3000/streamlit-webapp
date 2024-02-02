@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import colors
 import pandas as pd
 import plotly.graph_objs as go
 from global_page_elements import langwrite
@@ -110,19 +112,10 @@ def plot_prediction(prediction_df, berlin_now):
 
 def plot_renewable_share(prediction_df, berlin_now):
     # colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
-
-    import matplotlib.pyplot as plt
-    
-    # cm = plt.cm.get_cmap('RdYlGn')
-    # norm = colors.Normalize(10, 125)
-    # color = cm(norm(renewable_share.values*100)),
-    from matplotlib import colors
     cm = plt.cm.get_cmap('RdYlGn')
     norm = colors.Normalize(0, 150)
-
     rgbs = cm(norm(prediction_df['re_share'].values))
     marker_colors = [colors.rgb2hex(x) for x in rgbs]
-    
     
     fig2 = go.Figure()
     fig2.add_trace(go.Bar(

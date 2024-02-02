@@ -119,7 +119,7 @@ with st.container():
 with st.container():
     st.write("---")
     st.header(langwrite("Forecasts", "Vorhersagen"), anchor=False)
-    tab1, tab2 = st.tabs([langwrite("Strommix", "Electricity Mix"), langwrite("Stromampel", "Electricity Traffic Light")])
+    tab1, tab2 = st.tabs([langwrite("Electricity Traffic Light", "Stromampel"), langwrite("Electricity Mix", "Strommix")])
 
     with tab1:
         left_column, right_column = st.columns((7,3))
