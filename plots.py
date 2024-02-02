@@ -81,7 +81,7 @@ def plot_prediction(prediction_df, berlin_now):
         hoverinfo='y',
         mode='lines',
         line=dict(width=1.25, color=f'rgb{(color_demand)}'),
-        name=langwrite('Demand', 'Netzlast'),
+        name=langwrite('Demand', 'Stromverbrauch'),
         hovertemplate='%{y:.2f} MW'
     ))
     fig1.add_shape(
@@ -102,7 +102,7 @@ def plot_prediction(prediction_df, berlin_now):
 
     fig1.update_layout(xaxis_title=langwrite("Time", "Zeit"), 
                     yaxis_title=langwrite("Power [MW]", "Leistung [MW]"), 
-                    title=langwrite("Electricity Mix Forecast", "Strommix Prognose"),
+                    title=langwrite("Electricity Mix Forecast", "Strommix Vorhersage"),
                     legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
                     hovermode='x unified'
     )
@@ -140,7 +140,7 @@ def plot_renewable_share(prediction_df, berlin_now):
 
     fig2.update_layout(xaxis_title=langwrite("Time", "Zeit"), 
                        yaxis_title=langwrite("Renewable Share [%]", "Anteil Erneuerbare Energie [%]"),
-                       title=langwrite("Electricity Traffic Light Forecast", "Stromampel Prognose"),
+                       title=langwrite("Electricity Traffic Light Forecast", "Stromampel Vorhersage"),
                        legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
                        hovermode='x unified'
     )

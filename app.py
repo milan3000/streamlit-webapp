@@ -66,7 +66,7 @@ with st.container():
         st.write(langwrite("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.",
             "Eine Anpassung des eigenen Verbrauchs an Zeiten mit hohem Anteil an Erneuerbarer Energie reduziert deinen **CO2-Fußabdruck**."))
         st.write(langwrite("Check our forecast of the German electricity mix to make informed usage decisions.",
-                "Schau in unsere Prognosen für den deutschen Strommix, um die besten Zeiten zu finden."))
+                "Schau in unsere Vorhersagen für den deutschen Strommix, um die besten Zeiten zu finden."))
         st.write(langwrite("[Learn More >](#what-we-do)", "[Erfahre Mehr >](#was-wir-machen)"))
     with middle_column:
         berlin_now = pd.Timestamp.now().floor('h')
@@ -101,12 +101,12 @@ with st.container():
         st.write(langwrite("""To find out, how the next hours and days will look like,
                      check our [Forecasts](#forecasts) below!""",
                      """Um herauszufinden, wie die nächsten Stunden und Tage aussehen werden,
-                     wirf einen Blick auf unsere [Prognosen](#prognosen) weiter unten!"""))
+                     wirf einen Blick auf unsere [Vorhersagen](#vorhersagen) weiter unten!"""))
         
 # ---- PLOTS ----
 with st.container():
     st.write("---")
-    st.header(langwrite("Forecasts", "Prognosen"), anchor=False)
+    st.header(langwrite("Forecasts", "Vorhersagen"), anchor=False)
     tab1, tab2 = st.tabs([langwrite("Electricity Mix", "Strommix"), langwrite("Electricity Traffic Light", "Stromampel")])
 
     with tab1:
@@ -132,7 +132,7 @@ with st.container():
                 """
                 Die Stromampel zeigt den Anteil der erneuerbaren Energien am Strommix in einem intuitiven Format an. 
                 Jeder Stunde der kommenden Woche wird eine Farbe zugewiesen, die von grün bis rot reicht, 
-                je nach dem Anteil der erneuerbaren Energien an der Netzlast. So lassen sich kinderleicht die besten Zeiten
+                je nach dem Anteil der erneuerbaren Energien am gesamtdeutschen Stromverbrauch. So lassen sich kinderleicht die besten Zeiten
                 zum optimalen Stormverbrauch herausfinden.
                 """))
     with tab2:
@@ -162,8 +162,8 @@ with st.container():
                 Diese Grafik zeigt die Erzeugung aus jeder erneuerbaren Energiequelle 
                 im deutschen Strommix für jede Stunde der kommenden Woche. Der Strom 
                 aus Biomasse, Wasserkraft, Wind- und Sonnenenergie ist übereinander gestapelt 
-                während die rote Linie die Netzlast darstellt. Jede Differenz 
-                zwischen der erneuerbaren Energie und der Netzlast (als Residuallast bezeichnet) muss 
+                während die rote Linie den Stromverbrauch darstellt. Jede Differenz 
+                zwischen der erneuerbaren Energie und dem Verbrauch (als Residuallast bezeichnet) muss 
                 durch fossile Brennstoffe oder Stromimporte ausgeglichen werden.
                 """))
             
@@ -188,7 +188,7 @@ with st.container():
                 we would really appreciate it! 
                 """,
                 """
-                Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Prognose 
+                Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Vorhersage 
                 des deutschen Strommixes, um die optimalen Nutzungszeiten zu ermitteln.
                 Unsere Infografik und API sind für nicht-kommerzielle Zwecke kostenlos.
                 Erfahren Sie mehr [Über uns](about) und unsere [Nutzungs- und Lizenzbedingungen](terms).
