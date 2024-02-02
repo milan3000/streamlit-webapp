@@ -109,14 +109,26 @@ def plot_prediction(prediction_df, berlin_now):
     return fig1
 
 def plot_renewable_share(prediction_df, berlin_now):
-    colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
+    # colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
 
+    import matplotlib.pyplot as plt
+    
+    # cm = plt.cm.get_cmap('RdYlGn')
+    # norm = colors.Normalize(10, 125)
+    # color = cm(norm(renewable_share.values*100)),
+    from matplotlib import colors
+    cm = plt.cm.get_cmap('RdYlGn')
+    norm = colors.Normalize(0, 150)
+
+    rgbs = cm(norm(prediction_df['re_share'].values))
+    marker_colors = [colors.rgb2hex(x) for x in rgbs]
+    
+    
     fig2 = go.Figure()
     fig2.add_trace(go.Bar(
         x=prediction_df['time'],
         y=prediction_df['re_share'],  
-        marker_color=prediction_df['re_share'],
-        marker_colorscale=colorscale,
+        marker_color=marker_colors,
         #hoverinfo='y',
         hovertemplate='%{y:.3}%',
         name=langwrite('Renewable Share', 'Anteil Erneuerbarer Energie')

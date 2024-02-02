@@ -14,6 +14,11 @@ traffic_light_states = {
     1 : (['Yellow','Gelb'], 33),
     2 : (['Green','Grün'], 80),
     }
+n_days_ahead=3
+
+
+
+
 st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide", initial_sidebar_state="collapsed")
 hide_image_fullscreen()
 local_css("style/style.css")
@@ -43,6 +48,8 @@ def get_traffic_light_state(forecast_df):
     #compute how low the current state will last and what would be the next state.
     period = int((switch_times.index[0]- pd.Timestamp(berlin_now)) / pd.Timedelta('1h'))
     next_state = switch_times[0]
+    
+   
     return re_share_now, traffic_light_state, traffic_light_color, period, next_state
     
 # ---- LOAD ASSETS ----
@@ -51,7 +58,7 @@ lottie_coding = load_lottieurl("https://lottie.host/5aee9f59-db21-45f4-8520-7f90
 # ---- READ DATA ----
 forecast_df = pd.read_json("https://reforecast.pythonanywhere.com/api/data")
 forecast_df['re_share'] = 100*(forecast_df['wind'] + forecast_df['solar'] + forecast_df['hydropower'] + forecast_df['biomass']) / forecast_df['demand']
-
+forecast_df = forecast_df.iloc[:24*n_days_ahead]
 # ---- HEADER ----
 insert_header()
 
@@ -108,7 +115,7 @@ with st.container():
 with st.container():
     st.write("---")
     st.header(langwrite("Forecasts", "Vorhersagen"), anchor=False)
-    tab1, tab2 = st.tabs([langwrite("Electricity Mix", "Strommix"), langwrite("Electricity Traffic Light", "Stromampel")])
+    tab1, tab2 = st.tabs([langwrite("Strommix", "Electricity Mix"), langwrite("Stromampel", "Electricity Traffic Light")])
 
     with tab1:
         left_column, right_column = st.columns((7,3))
@@ -127,18 +134,19 @@ with st.container():
             st.write(langwrite(
                 """
                 The electricity traffic light shows the share of renewable energy in the electricity mix in an intuitive format. 
-                Every hour of the upcoming week gets assigned a color ranging from green to red depending on the share of renewable energy to overall demand.
+                Every hour of the upcoming three days gets assigned a color ranging from green to red depending on the share of renewable energy to overall demand.
                 This makes determining times of optimal electricity usage super easy.
                 """,
                 """
                 Die Stromampel zeigt den Anteil der erneuerbaren Energien am Strommix in einem intuitiven Format an. 
-                Jeder Stunde der kommenden Woche wird eine Farbe zugewiesen, die von grün bis rot reicht, 
+                Jeder Stunde der kommendenden drei Tage wird eine Farbe zugewiesen, die von grün bis rot reicht, 
                 je nach dem Anteil der erneuerbaren Energien am gesamtdeutschen Stromverbrauch. So lassen sich kinderleicht die besten Zeiten
                 zum optimalen Stormverbrauch herausfinden.
                 """))
     with tab2:
         left_column, right_column = st.columns((7,3))
         with left_column:
+            
             forecast_fig = plot_prediction(forecast_df, berlin_now)
             st.plotly_chart(forecast_fig, use_container_width=True, config = {'displayModeBar': False})
         with right_column:

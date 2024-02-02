@@ -21,5 +21,5 @@ toolbarMode = "auto"
 
 [theme]
 base="light"
-backgroundColor="#d0eef5"
+backgroundColor="#E9F1F7" #d0eef5
 secondaryBackgroundColor="#bee6e5"
