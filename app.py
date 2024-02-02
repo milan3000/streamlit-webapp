@@ -60,7 +60,8 @@ with st.container():
     st.write("---")
     left_column, middle_column, right_column = st.columns((3,1,3))
     with left_column:
-        st.subheader(langwrite("Hello, welcome to Ecowhen (beta)", "Hallo, willkommen bei Ecowhen (beta)"), anchor=False)
+        st.subheader(langwrite("Hello, welcome to Ecowhen (beta)", 
+                               "Hallo, willkommen bei Ecowhen (beta)"), anchor=False)
         st.write(langwrite("We want to help you consume electricity in a more eco-friendly manner!",
             "Wir wollen dir helfen, deinen Stromverbrauch umweltfreundlicher zu gestalten!"))
         st.write(langwrite("Consuming electricity during high renewable energy periods reduces your **carbon footprint**.",
@@ -229,3 +230,9 @@ with st.container():
         st.markdown(contact_form, unsafe_allow_html=True)
     with right_column:
         st.empty()
+        
+# ---- Footer ----
+with st.container():
+
+    st.write("---")  
+    st.write("""[About Us](about?lang=en) --- [Terms of Use and License](terms?lang=en)""")
