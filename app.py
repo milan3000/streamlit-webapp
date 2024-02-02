@@ -187,7 +187,7 @@ with st.container():
                 """
                 We at Ecowhen provide a free and publicly available forecast 
                 of the German electricity mix to determine optimal times of usage.
-                Our infographics and API are free for non-commercial purposes.
+                Our infographics and API are free for private purposes.
                 Find out more [About Us](about?lang=en) and our [Terms of Use and License](terms?lang=en).
                 Soon, we will also offer the [Ecowhen Home Assistant](about?lang=en), 
                 a simple and easy-to-install system that makes eco-friendly energy usage 
@@ -199,7 +199,7 @@ with st.container():
                 """
                 Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Vorhersage 
                 des deutschen Strommixes, um die optimalen Nutzungszeiten zu ermitteln.
-                Unsere Infografik und API sind für nicht-kommerzielle Zwecke kostenlos.
+                Unsere Infografik und API sind für private Zwecke kostenlos.
                 Erfahren Sie mehr [Über uns](about) und unsere [Nutzungs- und Lizenzbedingungen](terms).
                 Bald werden wir auch den [Ecowhen Home Assistant](about) anbieten, 
                 ein einfaches und leicht zu installierendes System, das die umweltfreundliche Energienutzung 
@@ -243,4 +243,4 @@ with st.container():
 with st.container():
 
     st.write("---")  
-    st.write("""[About Us](about?lang=en) --- [Terms of Use and License](terms?lang=en)""")
+    st.write("""[About Us](about?lang=en) - [Terms of Use and License](terms?lang=en)""")
