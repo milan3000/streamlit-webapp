@@ -53,4 +53,5 @@ def insert_header():
             horizontal=True,
             on_change=set_language,
             key="selected_language",
+            index=(0 if st.query_params.lang=='de' else 1)
     )
