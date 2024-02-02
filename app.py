@@ -112,6 +112,32 @@ with st.container():
     with tab1:
         left_column, right_column = st.columns((7,3))
         with left_column:
+            traffic_light_fig = plot_renewable_share(forecast_df, berlin_now)
+            st.plotly_chart(traffic_light_fig, use_container_width=True, config = {'displayModeBar': False})
+        with right_column:
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write(langwrite(
+                """
+                The electricity traffic light shows the share of renewable energy in the electricity mix in an intuitive format. 
+                Every hour of the upcoming week gets assigned a color ranging from green to red depending on the share of renewable energy to overall demand.
+                This makes determining times of optimal electricity usage super easy.
+                """,
+                """
+                Die Stromampel zeigt den Anteil der erneuerbaren Energien am Strommix in einem intuitiven Format an. 
+                Jeder Stunde der kommenden Woche wird eine Farbe zugewiesen, die von grün bis rot reicht, 
+                je nach dem Anteil der erneuerbaren Energien an der Netzlast. So lassen sich kinderleicht die besten Zeiten
+                zum optimalen Stormverbrauch herausfinden.
+                """))
+    with tab2:
+        left_column, right_column = st.columns((7,3))
+        with left_column:
             forecast_fig = plot_prediction(forecast_df, berlin_now)
             st.plotly_chart(forecast_fig, use_container_width=True, config = {'displayModeBar': False})
         with right_column:
@@ -139,32 +165,6 @@ with st.container():
                 während die rote Linie die Netzlast darstellt. Jede Differenz 
                 zwischen der erneuerbaren Energie und der Netzlast (als Residuallast bezeichnet) muss 
                 durch fossile Brennstoffe oder Stromimporte ausgeglichen werden.
-                """))
-    with tab2:
-        left_column, right_column = st.columns((7,3))
-        with left_column:
-            traffic_light_fig = plot_renewable_share(forecast_df, berlin_now)
-            st.plotly_chart(traffic_light_fig, use_container_width=True, config = {'displayModeBar': False})
-        with right_column:
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write("")
-            st.write(langwrite(
-                """
-                The electricity traffic light shows the share of renewable energy in the electricity mix in an intuitive format. 
-                Every hour of the upcoming week gets assigned a color ranging from green to red depending on the share of renewable energy to overall demand.
-                This makes determining times of optimal electricity usage super easy.
-                """,
-                """
-                Die Stromampel zeigt den Anteil der erneuerbaren Energien am Strommix in einem intuitiven Format an. 
-                Jeder Stunde der kommenden Woche wird eine Farbe zugewiesen, die von grün bis rot reicht, 
-                je nach dem Anteil der erneuerbaren Energien an der Netzlast. So lassen sich kinderleicht die besten Zeiten
-                zum optimalen Stormverbrauch herausfinden.
                 """))
             
 # ---- INFO ----
