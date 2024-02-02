@@ -18,3 +18,8 @@ showSidebarNavigation = false
 #                 If there are no options left, hide the menu.
 # Default: "auto"
 toolbarMode = "auto"
+
+[theme]
+base="light"
+backgroundColor="#E9F1F7" #d0eef5
+secondaryBackgroundColor="#bee6e5"

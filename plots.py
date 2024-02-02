@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
+from global_page_elements import langwrite
 
 def plot_prediction(prediction_df, berlin_now):
     time_axis = prediction_df['time']
@@ -31,7 +32,7 @@ def plot_prediction(prediction_df, berlin_now):
         mode='lines',
         line=dict(width=0.5, color=f'rgb{(color_biomass)}'),
         stackgroup='one', # define stack group
-        name='Biomass',
+        name=langwrite('Biomass', 'Biomasse'),
         fillcolor=f'rgba{(color_biomass)}',
         hovertemplate='%{y:.2f} MW'
     ))
@@ -41,7 +42,7 @@ def plot_prediction(prediction_df, berlin_now):
         mode='lines',
         line=dict(width=0.5, color=f'rgb{(color_hydropower)}'),
         stackgroup='one',
-        name='Hydropower',
+        name=langwrite('Hydropower', 'Wasserkraft'),
         fillcolor=f'rgba{(color_hydropower)}',
         hovertemplate='%{y:.2f} MW'
     ))
@@ -71,7 +72,7 @@ def plot_prediction(prediction_df, berlin_now):
         mode='lines',
         line=dict(width=0.5, color=f'rgb{(color_residual)}'),
         stackgroup='one',
-        name='Residual Load',
+        name=langwrite('Residual Load', 'Residuallast'),
         fillcolor=f'rgba{(color_residual)}',
         hovertemplate='%{y:.2f} MW'
     ))
@@ -80,7 +81,7 @@ def plot_prediction(prediction_df, berlin_now):
         hoverinfo='y',
         mode='lines',
         line=dict(width=1.25, color=f'rgb{(color_demand)}'),
-        name='Demand',
+        name=langwrite('Demand', 'Stromverbrauch'),
         hovertemplate='%{y:.2f} MW'
     ))
     fig1.add_shape(
@@ -94,31 +95,43 @@ def plot_prediction(prediction_df, berlin_now):
             name="Current Time"
         )
     )
-    fig1.add_annotation(valign='top', text="Now", x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    fig1.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
 
     fig1.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
     fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
 
-    fig1.update_layout(xaxis_title="Time", 
-                    yaxis_title="Power [MW]", 
-                    title="Electricity Mix Forecast",
+    fig1.update_layout(xaxis_title=langwrite("Time", "Zeit"), 
+                    yaxis_title=langwrite("Power [MW]", "Leistung [MW]"), 
+                    title=langwrite("Electricity Mix Forecast", "Strommix Vorhersage"),
                     legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
                     hovermode='x unified'
     )
     return fig1
 
 def plot_renewable_share(prediction_df, berlin_now):
-    colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
+    # colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
 
+    import matplotlib.pyplot as plt
+    
+    # cm = plt.cm.get_cmap('RdYlGn')
+    # norm = colors.Normalize(10, 125)
+    # color = cm(norm(renewable_share.values*100)),
+    from matplotlib import colors
+    cm = plt.cm.get_cmap('RdYlGn')
+    norm = colors.Normalize(0, 150)
+
+    rgbs = cm(norm(prediction_df['re_share'].values))
+    marker_colors = [colors.rgb2hex(x) for x in rgbs]
+    
+    
     fig2 = go.Figure()
     fig2.add_trace(go.Bar(
         x=prediction_df['time'],
         y=prediction_df['re_share'],  
-        marker_color=prediction_df['re_share'],
-        marker_colorscale=colorscale,
+        marker_color=marker_colors,
         #hoverinfo='y',
         hovertemplate='%{y:.3}%',
-        name='Renewable Share'
+        name=langwrite('Renewable Share', 'Anteil Erneuerbarer Energie')
     ))
 
     fig2.add_shape(
@@ -132,14 +145,14 @@ def plot_renewable_share(prediction_df, berlin_now):
             name="Current Time"
         )
     )
-    fig2.add_annotation(valign='top', text="Now", x=berlin_now, y=120, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    fig2.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=120, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
 
     fig2.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
     fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
 
-    fig2.update_layout(xaxis_title="Time", 
-                       yaxis_title="Renewable Share [%]",
-                       title="Electricity Traffic Light Forecast",
+    fig2.update_layout(xaxis_title=langwrite("Time", "Zeit"), 
+                       yaxis_title=langwrite("Renewable Share [%]", "Anteil Erneuerbare Energie [%]"),
+                       title=langwrite("Electricity Traffic Light Forecast", "Stromampel Vorhersage"),
                        legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
                        hovermode='x unified'
     )
