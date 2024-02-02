@@ -87,10 +87,12 @@ with st.container():
                  f"""Die Stromampel zeigt an, wie umweltfreundlich der aktuelle Strommix ist. 
                  Mit einem Anteil von **{round(re_share_now)}%** Erneuerbarer Energie zeigt die Stromampel **{traffic_light_color[1]}**."""))
         if(traffic_light_state==2):
+
             st.write(langwrite("""Now is a **good** time to consume electricity, use the dishwasher and washing machine or charge
                      your electric vehicle.""",
                      """Jetzt ist eine **gute** Zeit, um Strom zu verbrauchen, den Geschirrspüler und die Waschmaschine zu benutzen oder
                      Ihr Elektrofahrzeug aufzuladen."""))
+
         elif(traffic_light_state==1) and (next_state == 2):
             st.write(langwrite("""Now is an **OK** time to consume electricity. 
                      If you have planned to run big devices, maybe hold off on it until more renewable energy is available, if you can!""",
@@ -102,6 +104,7 @@ with st.container():
                      """Jetzt ist eine **mittelgute** Zeit, um Strom zu verbrauchen.
                      Falls du geplant hast, große Geräte zu betreiben, mach es am besten jetzt, bevor die Stromampel auf ROT schaltet"""))
         else:
+
             st.write(langwrite("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
                      that pollute the atmosphere. The traffic light will approximately switch in {period} hours when more renewables will be available.""",
                      """Jetzt ist **nicht der beste Zeitpunkt**, um Strom zu verbrauchen. Der meiste Strom stammt aus nicht erneuerbaren Quellen wie Kohle und Gas, 
@@ -110,6 +113,7 @@ with st.container():
                      check our [Forecasts](#forecasts) below!""",
                      """Um herauszufinden, wie die nächsten Stunden und Tage aussehen werden,
                      wirf einen Blick auf unsere [Vorhersagen](#vorhersagen) weiter unten!"""))
+
         
 # ---- PLOTS ----
 with st.container():
