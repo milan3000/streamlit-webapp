@@ -247,4 +247,5 @@ with st.container():
 with st.container():
 
     st.write("---")  
-    st.write("""[About Us](about?lang=en) - [Terms of Use and License](terms?lang=en)""")
+    st.write(langwrite("""[About Us](about?lang=en) - [Terms of Use and License](terms?lang=en)""",
+                       """[Über Uns](about?lang=de) - [Nutzungsbedingungen und Lizenz](terms?lang=de)"""))
