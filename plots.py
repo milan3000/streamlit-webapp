@@ -99,8 +99,8 @@ def plot_prediction(prediction_df, berlin_now):
     )
     fig1.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
 
-    fig1.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
-    fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
+    fig1.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
+    fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
 
     fig1.update_layout(xaxis_title=langwrite("Time", "Zeit"), 
                     yaxis_title=langwrite("Power [MW]", "Leistung [MW]"), 
@@ -140,14 +140,16 @@ def plot_renewable_share(prediction_df, berlin_now):
     )
     fig2.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=120, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
 
-    fig2.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
-    fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
+    fig2.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
+    fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
 
     fig2.update_layout(xaxis_title=langwrite("Time", "Zeit"), 
                        yaxis_title=langwrite("Renewable Share [%]", "Anteil Erneuerbare Energie [%]"),
                        title=langwrite("Electricity Traffic Light Forecast", "Stromampel Vorhersage"),
                        legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
-                       hovermode='x unified'
+                       hovermode='x unified',
+                       xaxis_tickformat = '%H:00 <br>%A %d.%m',
+                       
     )
     
     return fig2
