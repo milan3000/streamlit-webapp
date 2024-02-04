@@ -201,8 +201,8 @@ with st.container():
                 Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Vorhersage 
                 des deutschen Strommixes, um die optimalen Nutzungszeiten zu ermitteln.
                 Unsere Infografik und API sind für private Zwecke kostenlos.
-                Erfahren Sie mehr [Über uns](about) und unsere [Nutzungs- und Lizenzbedingungen](terms).
-                Bald werden wir auch den [Ecowhen Home Assistant](about) anbieten, 
+                Erfahren Sie mehr [Über uns](about?lang=de) und unsere [Nutzungs- und Lizenzbedingungen](terms?lang=de).
+                Bald werden wir auch den [Ecowhen Home Assistant](about?lang=de) anbieten, 
                 ein einfaches und leicht zu installierendes System, das die umweltfreundliche Energienutzung 
                 noch bequemer macht. Bleiben Sie also auf dem Laufenden für zukünftige Updates!
                 Wenn Sie Fragen haben, kontaktieren Sie uns bitte über das [Kontaktformular](#kontaktieren-sie-uns) unten.
