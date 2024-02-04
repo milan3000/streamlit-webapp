@@ -2,7 +2,7 @@ import streamlit as st
 from global_page_elements import insert_header, langwrite, local_css, hide_image_fullscreen
 
 # ---- CONFIG ----
-st.set_page_config(page_title="Ecowhen Terms of Use and License", page_icon="favicon_nobackground.ico", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title=langwrite("Ecowhen - Terms of Use and License", "Ecowhen - Nutzungsbedingungen und Lizenz"), page_icon="static/favicon.ico", layout="wide", initial_sidebar_state="collapsed")
 hide_image_fullscreen()
 local_css("style/style.css")
 
