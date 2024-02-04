@@ -12,7 +12,7 @@ def plot_prediction(prediction_df, berlin_now, language):
         locale.setlocale(locale.LC_TIME, 'de_DE.utf8')
     else:
         locale.setlocale(locale.LC_TIME, 'C')
-        
+
     time_axis = prediction_df['time']
     y_biomass = np.asarray(prediction_df['biomass'])
     y_hydropower = np.asarray(prediction_df['hydropower'])
@@ -104,7 +104,8 @@ def plot_prediction(prediction_df, berlin_now, language):
             name="Current Time"
         )
     )
-    fig1.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    #fig1.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    fig1.add_annotation(valign='bottom', text=langwrite("Now", "Jetzt"), x=berlin_now, y=82000, font=dict(color="blue"), showarrow=False, ax=-40, ay=0)
 
     # Generate ticktext with conditional formatting for 00:00 ticks
     ticktext = prediction_df['time'][::6].dt.strftime('%H:%M').tolist()
@@ -166,7 +167,7 @@ def plot_renewable_share(prediction_df, berlin_now, language):
             name="Current Time"
         )
     )
-    fig2.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=120, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    fig2.add_annotation(valign='bottom', text=langwrite("Now", "Jetzt"), x=berlin_now, y=123, font=dict(color="blue"), showarrow=False, ax=-40, ay=0)
 
     # Generate ticktext with conditional formatting for 00:00 ticks
     ticktext = prediction_df['time'][::6].dt.strftime('%H:%M').tolist()
