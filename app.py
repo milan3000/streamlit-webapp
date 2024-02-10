@@ -7,7 +7,7 @@ import pytz
 from traffic_light import generate_traffic_light_html
 from plots import plot_prediction, plot_renewable_share
 from global_page_elements import hide_image_fullscreen, insert_header, langwrite, local_css
-
+#%%
 # ---- CONFIG ----
 traffic_light_states = {
     0  : (['Red','Rot'], 0),
@@ -46,8 +46,12 @@ def get_traffic_light_state(forecast_df):
     switch_times = future_states[(future_states).diff().fillna(0)!=0]
     
     #compute how low the current state will last and what would be the next state.
-    period = int((switch_times.index[0]- pd.Timestamp(berlin_now)) / pd.Timedelta('1h'))
-    next_state = switch_times[0]
+    if len(switch_times.index)>0:
+        period = int((switch_times.index[0]- pd.Timestamp(berlin_now)) / pd.Timedelta('1h'))
+        next_state = switch_times[0]
+    else:
+        next_state= None
+        period = None
     
    
     return re_share_now, traffic_light_state, traffic_light_color, period, next_state
@@ -92,7 +96,7 @@ with st.container():
                      your electric vehicle.""",
                      """Jetzt ist eine **gute** Zeit, um Strom zu verbrauchen, den Geschirrspüler und die Waschmaschine zu benutzen oder
                      Ihr Elektrofahrzeug aufzuladen."""))
-
+                     
         elif(traffic_light_state==1) and (next_state == 2):
             st.write(langwrite("""Now is an **OK** time to consume electricity. 
                      If you have planned to run big devices, maybe hold off on it until more renewable energy is available, if you can!""",
@@ -103,6 +107,11 @@ with st.container():
                      If you have planned to run big devices, maybe do it now before the traffic light swiches to red!""",
                      """Jetzt ist eine **mittelgute** Zeit, um Strom zu verbrauchen.
                      Falls du geplant hast, große Geräte zu betreiben, mach es am besten jetzt, bevor die Stromampel auf ROT schaltet"""))
+        elif(traffic_light_state==1) and (next_state is None):
+            st.write(langwrite("""Now is an **OK** time to consume electricity. 
+                     If you have planned to run big devices, maybe do it now before the traffic light swiches to red!""",
+                     """Jetzt ist eine **mittelgute** Zeit, um Strom zu verbrauchen."""))
+        
         else:
 
             st.write(langwrite("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
