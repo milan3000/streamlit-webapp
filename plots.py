@@ -10,12 +10,12 @@ def plot_prediction(prediction_df, berlin_now, language):
      # Check to use German x-axis tick-labels
     if language == 'de':
         try:
-            locale.setlocale(locale.LC_TIME, 'de_DE.utf8')
+            locale.setlocale(locale.LC_ALL, 'de_DE.utf8')
         except locale.Error:
             print("Warning: 'de_DE.utf8' locale is not available. Falling back to default locale.")
-            locale.setlocale(locale.LC_TIME, '')
+            locale.setlocale(locale.LC_ALL, '')
     else:
-        locale.setlocale(locale.LC_TIME, 'C')
+        locale.setlocale(locale.LC_ALL, 'C')
 
     time_axis = prediction_df['time']
     y_biomass = np.asarray(prediction_df['biomass'])
