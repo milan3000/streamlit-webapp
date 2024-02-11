@@ -23,3 +23,6 @@ toolbarMode = "auto"
 base="light"
 backgroundColor="#E9F1F7" #d0eef5
 secondaryBackgroundColor="#bee6e5"
+
+[server]
+enableStaticServing = true

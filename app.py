@@ -16,10 +16,7 @@ traffic_light_states = {
     }
 n_days_ahead=3
 
-
-
-
-st.set_page_config(page_title="Ecowhen", page_icon="favicon_nobackground.ico", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Ecowhen", page_icon="static/favicon.ico", layout="wide", initial_sidebar_state="collapsed")
 hide_image_fullscreen()
 local_css("style/style.css")
 

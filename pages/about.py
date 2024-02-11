@@ -2,7 +2,7 @@ import streamlit as st
 from global_page_elements import insert_header, langwrite, local_css, hide_image_fullscreen
 
 # ---- CONFIG ----
-st.set_page_config(page_title="Ecowhen About Us", page_icon="favicon_nobackground.ico", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title=langwrite("Ecowhen - About Us", "Ecowhen - Über Uns"), page_icon="static/favicon.ico", layout="wide", initial_sidebar_state="collapsed")
 hide_image_fullscreen()
 local_css("style/style.css")
 
@@ -12,7 +12,7 @@ insert_header()
 # ---- ABOUT US ----
 with st.container():
     st.write("---")
-    st.header("About Us", anchor=False)
+    st.header(langwrite("About Us", "Über Uns"), anchor=False)
     st.write(langwrite(
             """
             This is a project that is passionately maintained and further developed by:""",
