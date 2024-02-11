@@ -140,12 +140,12 @@ def plot_renewable_share(prediction_df, berlin_now, language):
      # Check to use German x-axis tick-labels
     if language == 'de':
         try:
-            locale.setlocale(locale.LC_TIME, 'de_DE.utf8')
+            locale.setlocale(locale.LC_ALL, 'de_DE.utf8')
         except locale.Error:
             print("Warning: 'de_DE.utf8' locale is not available. Falling back to default locale.")
-            locale.setlocale(locale.LC_TIME, '')
+            locale.setlocale(locale.LC_ALL, '')
     else:
-        locale.setlocale(locale.LC_TIME, 'C')
+        locale.setlocale(locale.LC_ALL, 'C')
 
     prediction_df['time'] = pd.to_datetime(prediction_df['time'])
     # colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
