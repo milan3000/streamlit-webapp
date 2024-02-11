@@ -137,9 +137,13 @@ def plot_prediction(prediction_df, berlin_now, language):
     return fig1
 
 def plot_renewable_share(prediction_df, berlin_now, language):
-    # Check to use German x-axis tick-labels
+     # Check to use German x-axis tick-labels
     if language == 'de':
-        locale.setlocale(locale.LC_TIME, 'de_DE.utf8')
+        try:
+            locale.setlocale(locale.LC_TIME, 'de_DE.utf8')
+        except locale.Error:
+            print("Warning: 'de_DE.utf8' locale is not available. Falling back to default locale.")
+            locale.setlocale(locale.LC_TIME, '')
     else:
         locale.setlocale(locale.LC_TIME, 'C')
 

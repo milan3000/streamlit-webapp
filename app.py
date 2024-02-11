@@ -50,7 +50,6 @@ def get_traffic_light_state(forecast_df):
         next_state= None
         period = None
     
-   
     return re_share_now, traffic_light_state, traffic_light_color, period, next_state
     
 # ---- LOAD ASSETS ----
