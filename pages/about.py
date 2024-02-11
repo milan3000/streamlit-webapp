@@ -17,7 +17,7 @@ with st.container():
             """
             This is a project that is passionately maintained and further developed by:""",
             """ 
-            Dieses Projekt wird leidenschaftlicht weiter entwickelt von:"""
+            Dieses Projekt wird leidenschaftlich weiterentwickelt von:"""
             ))
 st.write("""Andreas Geiges - Frauenstätt 8a - 83313 Siegsdorf""")
 st.write("""Milan Wanek - Weisestrasse 50 - 12049 Berlin""")
