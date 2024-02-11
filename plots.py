@@ -3,9 +3,16 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import pandas as pd
 import plotly.graph_objs as go
+import locale
 from global_page_elements import langwrite
 
-def plot_prediction(prediction_df, berlin_now):
+def plot_prediction(prediction_df, berlin_now, language):
+     # Check to use German x-axis tick-labels
+    if language == 'de':
+        locale.setlocale(locale.LC_TIME, 'de_DE.utf8')
+    else:
+        locale.setlocale(locale.LC_TIME, 'C')
+
     time_axis = prediction_df['time']
     y_biomass = np.asarray(prediction_df['biomass'])
     y_hydropower = np.asarray(prediction_df['hydropower'])
@@ -97,10 +104,25 @@ def plot_prediction(prediction_df, berlin_now):
             name="Current Time"
         )
     )
-    fig1.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    #fig1.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=80000, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    fig1.add_annotation(valign='bottom', text=langwrite("Now", "Jetzt"), x=berlin_now, y=82000, font=dict(color="blue"), showarrow=False, ax=-40, ay=0)
 
-    fig1.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
-    fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
+    # Generate ticktext with conditional formatting for 00:00 ticks
+    ticktext = prediction_df['time'][::6].dt.strftime('%H:%M').tolist()
+    for i, t in enumerate(ticktext):
+        if i % 4 == 0:  # Check if it's a multiple of 4 (i.e., 00:00)
+            ticktext[i] = prediction_df['time'][i*6].strftime('%H:%M <br>%A %d.%m.%Y')
+
+    fig1.update_xaxes(
+        showgrid=True,
+        gridwidth=0.2,
+        gridcolor='rgba(0, 0, 0, 0.3)',
+        fixedrange=True,
+        tickmode='array',
+        tickvals=prediction_df['time'][::6],  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
+        ticktext=ticktext,  # Use the generated ticktext
+    )
+    fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
 
     fig1.update_layout(xaxis_title=langwrite("Time", "Zeit"), 
                     yaxis_title=langwrite("Power [MW]", "Leistung [MW]"), 
@@ -110,7 +132,14 @@ def plot_prediction(prediction_df, berlin_now):
     )
     return fig1
 
-def plot_renewable_share(prediction_df, berlin_now):
+def plot_renewable_share(prediction_df, berlin_now, language):
+    # Check to use German x-axis tick-labels
+    if language == 'de':
+        locale.setlocale(locale.LC_TIME, 'de_DE.utf8')
+    else:
+        locale.setlocale(locale.LC_TIME, 'C')
+
+    prediction_df['time'] = pd.to_datetime(prediction_df['time'])
     # colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
     cm = plt.cm.get_cmap('RdYlGn')
     norm = colors.Normalize(0, 150)
@@ -138,16 +167,30 @@ def plot_renewable_share(prediction_df, berlin_now):
             name="Current Time"
         )
     )
-    fig2.add_annotation(valign='top', text=langwrite("Now", "Jetzt"), x=berlin_now, y=120, arrowhead=1, showarrow=True, arrowcolor="blue", ax=-60, ay=0)
+    fig2.add_annotation(valign='bottom', text=langwrite("Now", "Jetzt"), x=berlin_now, y=123, font=dict(color="blue"), showarrow=False, ax=-40, ay=0)
 
-    fig2.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
-    fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)')
+    # Generate ticktext with conditional formatting for 00:00 ticks
+    ticktext = prediction_df['time'][::6].dt.strftime('%H:%M').tolist()
+    for i, t in enumerate(ticktext):
+        if i % 4 == 0:  # Check if it's a multiple of 4 (i.e., 00:00)
+            ticktext[i] = prediction_df['time'][i*6].strftime('%H:%M <br>%A %d.%m.%Y')
+
+    fig2.update_xaxes(
+        showgrid=True,
+        gridwidth=0.2,
+        gridcolor='rgba(0, 0, 0, 0.3)',
+        fixedrange=True,
+        tickmode='array',
+        tickvals=prediction_df['time'][::6],  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
+        ticktext=ticktext,  # Use the generated ticktext
+    )
+    fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
 
     fig2.update_layout(xaxis_title=langwrite("Time", "Zeit"), 
                        yaxis_title=langwrite("Renewable Share [%]", "Anteil Erneuerbare Energie [%]"),
                        title=langwrite("Electricity Traffic Light Forecast", "Stromampel Vorhersage"),
                        legend=dict(orientation="h", yanchor="top", y=1.1, xanchor="center", x=0.5),
-                       hovermode='x unified'
+                       hovermode='x unified',                       
     )
     
     return fig2

@@ -130,7 +130,7 @@ with st.container():
     with tab1:
         left_column, right_column = st.columns((7,3))
         with left_column:
-            traffic_light_fig = plot_renewable_share(forecast_df, berlin_now)
+            traffic_light_fig = plot_renewable_share(forecast_df, berlin_now, st.query_params.lang)
             st.plotly_chart(traffic_light_fig, use_container_width=True, config = {'displayModeBar': False})
         with right_column:
             st.write("")
@@ -157,7 +157,7 @@ with st.container():
         left_column, right_column = st.columns((7,3))
         with left_column:
             
-            forecast_fig = plot_prediction(forecast_df, berlin_now)
+            forecast_fig = plot_prediction(forecast_df, berlin_now, st.query_params.lang)
             st.plotly_chart(forecast_fig, use_container_width=True, config = {'displayModeBar': False})
         with right_column:
             st.write("")
@@ -210,8 +210,8 @@ with st.container():
                 Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Vorhersage 
                 des deutschen Strommixes, um die optimalen Nutzungszeiten zu ermitteln.
                 Unsere Infografik und API sind für private Zwecke kostenlos.
-                Erfahren Sie mehr [Über uns](about) und unsere [Nutzungs- und Lizenzbedingungen](terms).
-                Bald werden wir auch den [Ecowhen Home Assistant](about) anbieten, 
+                Erfahren Sie mehr [Über uns](about?lang=de) und unsere [Nutzungs- und Lizenzbedingungen](terms?lang=de).
+                Bald werden wir auch den [Ecowhen Home Assistant](about?lang=de) anbieten, 
                 ein einfaches und leicht zu installierendes System, das die umweltfreundliche Energienutzung 
                 noch bequemer macht. Bleiben Sie also auf dem Laufenden für zukünftige Updates!
                 Wenn Sie Fragen haben, kontaktieren Sie uns bitte über das [Kontaktformular](#kontaktieren-sie-uns) unten.
