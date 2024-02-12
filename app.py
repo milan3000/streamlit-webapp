@@ -30,7 +30,7 @@ def load_lottieurl(url):
 def get_traffic_light_state(forecast_df):
     share_df = forecast_df.loc[:,['time','re_share']].set_index('time')['re_share']
     share_df.index = pd.DatetimeIndex(share_df.index)
-    berlin_now = pd.Timestamp.now().floor('h') - pd.Timedelta('1h')
+    berlin_now = pd.Timestamp.now().floor('h')
     re_share_now = share_df.loc[share_df.index == berlin_now].item()
     
     traffic_state_df = share_df * 0
