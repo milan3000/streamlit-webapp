@@ -8,6 +8,7 @@ from traffic_light import generate_traffic_light_html
 from plots import plot_prediction, plot_renewable_share
 from global_page_elements import hide_image_fullscreen, insert_header, langwrite, local_css
 #%%
+
 # ---- CONFIG ----
 traffic_light_states = {
     0  : (['Red','Rot'], 0),
@@ -29,7 +30,7 @@ def load_lottieurl(url):
 def get_traffic_light_state(forecast_df):
     share_df = forecast_df.loc[:,['time','re_share']].set_index('time')['re_share']
     share_df.index = pd.DatetimeIndex(share_df.index)
-    berlin_now = pd.Timestamp.now().floor('h')
+    berlin_now = pd.Timestamp.now().floor('h') - pd.Timedelta('1h')
     re_share_now = share_df.loc[share_df.index == berlin_now].item()
     
     traffic_state_df = share_df * 0
@@ -39,7 +40,7 @@ def get_traffic_light_state(forecast_df):
     traffic_light_state = int(traffic_state_df.loc[berlin_now])
     traffic_light_color = traffic_light_states[traffic_light_state][0]
     # compute period until traffic light switches
-    future_states = traffic_state_df.loc[traffic_state_df.index > berlin_now]
+    future_states = traffic_state_df.loc[traffic_state_df.index >= berlin_now]
     switch_times = future_states[(future_states).diff().fillna(0)!=0]
     
     #compute how low the current state will last and what would be the next state.
@@ -112,8 +113,8 @@ with st.container():
 
             st.write(langwrite("""Now is **not the best time** to consume elctricity. Most of it comes from non-renewable sources like coal and gas 
                      that pollute the atmosphere. The traffic light will approximately switch in {period} hours when more renewables will be available.""",
-                     """Jetzt ist **nicht der beste Zeitpunkt**, um Strom zu verbrauchen. Der meiste Strom stammt aus nicht erneuerbaren Quellen wie Kohle und Gas, 
-                     welche die Atmosphäre verschmutzen. Die Ampel wird ungefähr in {period} Stunden umschalten, wenn mehr erneuerbare Energie verfügbar sein wird."""))
+                     f"""Jetzt ist **nicht der beste Zeitpunkt**, um Strom zu verbrauchen. Der meiste Strom stammt aus nicht erneuerbaren Quellen wie Kohle und Gas, 
+                     welche die Atmosphäre verschmutzen. Die Ampel wird ungefähr in {period} Stunde(n) umschalten, wenn mehr erneuerbare Energie verfügbar sein wird."""))
         st.write(langwrite("""To find out, how the next hours and days will look like,
                      check our [Forecasts](#forecasts) below!""",
                      """Um herauszufinden, wie die nächsten Stunden und Tage aussehen werden,
