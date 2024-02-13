@@ -43,7 +43,7 @@ def insert_header():
     with st.container():
         left_column, middle_column, right_column = st.columns((4,4,2))
         with left_column:
-            st.markdown('''<a href="https://ecowhen.streamlit.app/" target="_blank">
+            st.markdown('''<a href="https://ecowhen.streamlit.app/" target="_self">
                         <img src="./app/static/ecowhen_logo-name.png" width="320">''', 
                         unsafe_allow_html=True)
         with middle_column:

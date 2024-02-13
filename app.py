@@ -193,32 +193,32 @@ with st.container():
     with left_column:
         with left_column:
             st.header(langwrite("What we do", "Was wir machen"), anchor=False)
-            st.write(langwrite(
+            st.markdown(langwrite(
                 """
                 We at Ecowhen provide a free and publicly available forecast 
                 of the German electricity mix to determine optimal times of usage.
                 Our infographics and API are free for private purposes.
-                Find out more [About Us](about?lang=en) and our [Terms of Use and License](terms?lang=en).
-                Soon, we will also offer the [Ecowhen Home Assistant](about?lang=en), 
+                Find out more <a href="about?lang=en" target="_self">About Us</a> and our <a href="terms?lang=en" target="_self">Terms of Use and License</a>.
+                Soon, we will also offer the <a href="about?lang=en" target="_self">About Us</a>, 
                 a simple and easy-to-install system that makes eco-friendly energy usage 
                 even more convenient. So stay tuned for future updates!
                 If you have any questions, please contact us through the [Contact Form](#get-in-touch) below.
-                If you like our work, consider [buying us a coffee](https://www.buymeacoffee.com/milan_wanek) :coffee:,
+                If you like our work, consider <a href="https://www.buymeacoffee.com/milan_wanek" target="_blank">buying us a coffee</a> :coffee:,
                 we would really appreciate it! 
                 """,
                 """
                 Wir von Ecowhen bieten eine kostenlose und öffentlich zugängliche Vorhersage 
                 des deutschen Strommixes, um die optimalen Nutzungszeiten zu ermitteln.
                 Unsere Infografik und API sind für private Zwecke kostenlos.
-                Erfahren Sie mehr [Über uns](about?lang=de) und unsere [Nutzungs- und Lizenzbedingungen](terms?lang=de).
-                Bald werden wir auch den [Ecowhen Home Assistant](about?lang=de) anbieten, 
+                Erfahren Sie mehr <a href="about?lang=de" target="_self">Über Uns</a> und unsere <a href="terms?lang=de" target="_self">Nutzungs- und Lizenzbedinungen</a>.
+                Bald werden wir auch den <a href="about?lang=de" target="_self" >Ecowhen Home Assistant</a> anbieten, 
                 ein einfaches und leicht zu installierendes System, das die umweltfreundliche Energienutzung 
                 noch bequemer macht. Bleiben Sie also auf dem Laufenden für zukünftige Updates!
                 Wenn Sie Fragen haben, kontaktieren Sie uns bitte über das [Kontaktformular](#kontaktieren-sie-uns) unten.
-                Wenn Ihnen unsere Arbeit gefällt, können Sie uns gerne einen [Kaffee](https://www.buymeacoffee.com/milan_wanek) :coffee: spendieren,
+                Wenn Ihnen unsere Arbeit gefällt, können Sie uns gerne einen <a href="https://www.buymeacoffee.com/milan_wanek" target="_blank">Kaffee</a> :coffee: spendieren,
                 wir würden uns sehr darüber freuen!
                 """
-            ))
+            ), unsafe_allow_html=True)
     with right_column:
         st_lottie(lottie_coding, height=300, key="coding")
         
@@ -253,5 +253,6 @@ with st.container():
 with st.container():
 
     st.write("---")  
-    st.write(langwrite("""[About Us](about?lang=en) - [Terms of Use and License](terms?lang=en)""",
-                       """[Über Uns](about?lang=de) - [Nutzungsbedingungen und Lizenz](terms?lang=de)"""))
+    st.markdown(langwrite("""<a href="about?lang=en" target="_self">About Us</a> - <a href="terms?lang=en" target="_self">Terms of Use and License</a>""",
+                       """<a href="about?lang=de" target="_self">Über Uns</a> - <a href="terms?lang=de" target="_self">Nutzungs- und Lizenzbedinungen</a>"""
+                       ), unsafe_allow_html=True)
