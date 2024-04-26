@@ -30,7 +30,7 @@ def load_lottieurl(url):
 def get_traffic_light_state(forecast_df):
     share_df = forecast_df.loc[:,['time','re_share']].set_index('time')['re_share']
     share_df.index = pd.DatetimeIndex(share_df.index)
-    berlin_now = pd.Timestamp.now().floor('h')
+    berlin_now = pd.Timestamp.now(tz='CET').tz_localize(None).floor('h')
     re_share_now = share_df.loc[share_df.index == berlin_now].item()
     
     traffic_state_df = share_df * 0
@@ -78,7 +78,7 @@ with st.container():
                 "Schau in unsere Vorhersagen für den deutschen Strommix, um die besten Zeiten zu finden."))
         st.write(langwrite("[Learn More >](#what-we-do)", "[Erfahre Mehr >](#was-wir-machen)"))
     with middle_column:
-        berlin_now = pd.Timestamp.now().floor('h')
+        berlin_now = pd.Timestamp.now(tz='CET').tz_localize(None).floor('h')
         re_share_now, traffic_light_state, traffic_light_color, period, next_state = get_traffic_light_state(forecast_df)
         st.markdown(generate_traffic_light_html(traffic_light_state, period, next_state), unsafe_allow_html=True)
     with right_column:
