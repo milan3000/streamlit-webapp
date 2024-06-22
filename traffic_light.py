@@ -86,7 +86,7 @@ def generate_traffic_light_html(state, period, next_state):
                 width: 30vw;
                 line-height: 30vw;
                 height: 30vw;
-                font-size: 15px;
+                font-size: 50px;
             }}
         }}
     </style>
