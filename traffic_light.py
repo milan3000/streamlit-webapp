@@ -5,18 +5,18 @@ def generate_traffic_light_html(state, period, next_state):
     # Opacities based on the state
     opacities = [1.0 if i == state else 0.1 for i in range(3)]
     
-    #determing direction of arrow to next state
+        # Determining direction of arrow to next state
     if state == 0:
-        arrow = "&nearr;"
+        arrow = "↗"  # Unicode for northeast arrow
     elif state == 1:
-        if next_state==0:
-            arrow= "&searr;"
-        elif next_state==2:
-            arrow = "&nearr;"
-    elif state== 2:
-        arrow = "&searr;"
+        if next_state == 0:
+            arrow = "↘"  # Unicode for southeast arrow
+        elif next_state == 2:
+            arrow = "↗"  # Unicode for northeast arrow
+    elif state == 2:
+        arrow = "↘"  # Unicode for southeast arrow
     if next_state is None:
-        arrow = "&rarr;"
+        arrow = "→"  # Unicode for right arrow
         period_str = ""
     else:
         period_str = f"{period}h"
