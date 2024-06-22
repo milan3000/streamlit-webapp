@@ -8,7 +8,11 @@ from traffic_light import generate_traffic_light_html
 from plots import plot_prediction, plot_renewable_share
 from global_page_elements import hide_image_fullscreen, insert_header, langwrite, local_css
 #%%
-
+model_selected = 'physical'
+data_sources = {
+    'AI' : "https://reforecast.pythonanywhere.com/api/data",
+    'physical' : "https://github.com/geiges/Renewable_share_forecast_Germany/raw/main/DEU_RE_forecast.json"
+}
 # ---- CONFIG ----
 traffic_light_states = {
     0  : (['Red','Rot'], 0),
@@ -57,7 +61,7 @@ def get_traffic_light_state(forecast_df):
 lottie_coding = load_lottieurl("https://lottie.host/5aee9f59-db21-45f4-8520-7f90f0698b12/Z6EW1TwZI7.json")
 
 # ---- READ DATA ----
-forecast_df = pd.read_json("https://reforecast.pythonanywhere.com/api/data")
+forecast_df = pd.read_json(data_sources[model_selected])
 forecast_df['re_share'] = 100*(forecast_df['wind'] + forecast_df['solar'] + forecast_df['hydropower'] + forecast_df['biomass']) / forecast_df['demand']
 forecast_df = forecast_df.iloc[:24*n_days_ahead]
 # ---- HEADER ----
