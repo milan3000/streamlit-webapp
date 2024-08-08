@@ -6,6 +6,11 @@ import plotly.graph_objs as go
 import locale
 from global_page_elements import langwrite
 
+
+#%% config
+
+x_tick_rot = 30
+
 def format_time_index(prediction_df):
     display_tidx = prediction_df['time'][
         pd.DatetimeIndex(prediction_df['time']).hour%3 ==0]
@@ -145,7 +150,7 @@ def plot_prediction(prediction_df, berlin_now, language):
         tickmode='array',
         tickvals=display_tidx,  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
         ticktext=ticktext,  # Use the generated ticktext
-        tickangle=45,
+        tickangle=x_tick_rot,
     )
     fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
 
@@ -209,7 +214,7 @@ def plot_renewable_share(prediction_df, berlin_now, language):
         tickmode='array',
         tickvals=display_tidx,  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
         ticktext=ticktext,  # Use the generated ticktext
-        tickangle=45
+        tickangle=x_tick_rot
     )
     fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
 
