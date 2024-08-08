@@ -145,6 +145,7 @@ def plot_prediction(prediction_df, berlin_now, language):
         tickmode='array',
         tickvals=display_tidx,  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
         ticktext=ticktext,  # Use the generated ticktext
+        tickangle=45,
     )
     fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
 
@@ -208,6 +209,7 @@ def plot_renewable_share(prediction_df, berlin_now, language):
         tickmode='array',
         tickvals=display_tidx,  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
         ticktext=ticktext,  # Use the generated ticktext
+        tickangle=45
     )
     fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
 
