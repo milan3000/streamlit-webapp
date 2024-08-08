@@ -11,6 +11,11 @@ from global_page_elements import langwrite
 
 x_tick_rot = 60
 
+# full_day_time_format = '%H:%M <br>%A %d.%m.%Y'
+full_day_time_format = '%H:%M - %A %d.%m.'
+three_hour_time_format = '%H:%M'
+#%%
+
 def format_time_index(prediction_df):
     display_tidx = prediction_df['time'][
         pd.DatetimeIndex(prediction_df['time']).hour%3 ==0]
@@ -20,9 +25,9 @@ def format_time_index(prediction_df):
     for tidx in pd.DatetimeIndex(display_tidx):
         
         if tidx.hour == 0:
-            ticktext.append(tidx.strftime('%H:%M <br>%A %d.%m.%Y'))
+            ticktext.append(tidx.strftime(full_day_time_format))
         else:
-            ticktext.append(tidx.strftime('%H:%M'))
+            ticktext.append(tidx.strftime(three_hour_time_format))
         
     return display_tidx, ticktext
 
