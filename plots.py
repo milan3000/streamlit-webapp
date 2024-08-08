@@ -127,10 +127,10 @@ def plot_prediction(prediction_df, berlin_now, language):
     fig1.add_annotation(valign='bottom', text=langwrite("Now", "Jetzt"), x=berlin_now, y=82000, font=dict(color="blue"), showarrow=False, ax=-40, ay=0)
 
     # Generate ticktext with conditional formatting for 00:00 ticks
-    ticktext = prediction_df['time'][::6].dt.strftime('%H:%M').tolist()
-    for i, t in enumerate(ticktext):
-        if i % 4 == 0:  # Check if it's a multiple of 4 (i.e., 00:00)
-            ticktext[i] = prediction_df['time'][i*6].strftime('%H:%M <br>%A %d.%m.%Y')
+    #ticktext = prediction_df['time'][::6].dt.strftime('%H:%M').tolist()
+    #for i, t in enumerate(ticktext):
+    #    if i % 4 == 0:  # Check if it's a multiple of 4 (i.e., 00:00)
+    #        ticktext[i] = prediction_df['time'][i*6].strftime('%H:%M <br>%A %d.%m.%Y')
 
 
 
