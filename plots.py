@@ -7,7 +7,8 @@ import locale
 from global_page_elements import langwrite
 
 def format_time_index(prediction_df):
-    display_tidx = prediction_df['time'][prediction_df['time'].dt.hour%3 ==0]
+    display_tidx = prediction_df['time'][
+        pd.DatetimeIndex(prediction_df['time']).dt.hour%3 ==0]
         
     
     ticktext = list()
