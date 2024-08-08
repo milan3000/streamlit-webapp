@@ -6,6 +6,20 @@ import plotly.graph_objs as go
 import locale
 from global_page_elements import langwrite
 
+def format_time_index(prediction_df):
+    display_tidx = prediction_df['time'][prediction_df['time'].dt.hour%3 ==0]
+        
+    
+    ticktext = list()
+    for tidx in pd.DatetimeIndex(display_tidx):
+        
+        if tidx.hour == 0:
+            ticktext.append(tidx.strftime('%H:%M <br>%A %d.%m.%Y'))
+        else:
+            ticktext.append(tidx.strftime('%H:%M'))
+        
+    return display_tidx, ticktext
+
 def plot_prediction(prediction_df, berlin_now, language):
      # Check to use German x-axis tick-labels
     if language == 'de':
@@ -117,13 +131,18 @@ def plot_prediction(prediction_df, berlin_now, language):
         if i % 4 == 0:  # Check if it's a multiple of 4 (i.e., 00:00)
             ticktext[i] = prediction_df['time'][i*6].strftime('%H:%M <br>%A %d.%m.%Y')
 
+
+
+            
+    display_tidx, ticktext = format_time_index(prediction_df)            
+        
     fig1.update_xaxes(
         showgrid=True,
         gridwidth=0.2,
         gridcolor='rgba(0, 0, 0, 0.3)',
         fixedrange=True,
         tickmode='array',
-        tickvals=prediction_df['time'][::6],  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
+        tickvals=display_tidx,  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
         ticktext=ticktext,  # Use the generated ticktext
     )
     fig1.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
@@ -147,7 +166,7 @@ def plot_renewable_share(prediction_df, berlin_now, language):
     else:
         locale.setlocale(locale.LC_ALL, 'C')
 
-    prediction_df['time'] = pd.to_datetime(prediction_df['time'])
+    prediction_df.loc[:,'time'] = pd.to_datetime(prediction_df['time'])
     # colorscale = [(0, 'red'), (0.25, 'orange'), (0.5, 'yellow'), (0.75, 'lightgreen'), (1, 'green')]
     cm = plt.cm.get_cmap('RdYlGn')
     norm = colors.Normalize(0, 150)
@@ -178,10 +197,7 @@ def plot_renewable_share(prediction_df, berlin_now, language):
     fig2.add_annotation(valign='bottom', text=langwrite("Now", "Jetzt"), x=berlin_now, y=123, font=dict(color="blue"), showarrow=False, ax=-40, ay=0)
 
     # Generate ticktext with conditional formatting for 00:00 ticks
-    ticktext = prediction_df['time'][::6].dt.strftime('%H:%M').tolist()
-    for i, t in enumerate(ticktext):
-        if i % 4 == 0:  # Check if it's a multiple of 4 (i.e., 00:00)
-            ticktext[i] = prediction_df['time'][i*6].strftime('%H:%M <br>%A %d.%m.%Y')
+    display_tidx, ticktext = format_time_index(prediction_df)      
 
     fig2.update_xaxes(
         showgrid=True,
@@ -189,7 +205,7 @@ def plot_renewable_share(prediction_df, berlin_now, language):
         gridcolor='rgba(0, 0, 0, 0.3)',
         fixedrange=True,
         tickmode='array',
-        tickvals=prediction_df['time'][::6],  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
+        tickvals=display_tidx,  # Every 6th element to get 00:00, 06:00, 12:00, 18:00
         ticktext=ticktext,  # Use the generated ticktext
     )
     fig2.update_yaxes(showgrid=True, gridwidth=0.2, gridcolor='rgba(0, 0, 0, 0.3)', fixedrange=True)
