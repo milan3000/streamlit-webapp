@@ -9,7 +9,7 @@ from global_page_elements import langwrite
 
 #%% config
 
-x_tick_rot = 30
+x_tick_rot = 60
 
 def format_time_index(prediction_df):
     display_tidx = prediction_df['time'][
